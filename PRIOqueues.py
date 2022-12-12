@@ -10,12 +10,36 @@ from itertools import count # Implementing the itertools module to count from ze
 
 # Mixin Class (meaning they are dependent on another class defined in the Python module)
 class IterableMixin:
+    # Length of the iterable list that by value priority queue.
     def __len__(self):
         return len(self._elements)
 
+    # Iterable constructor 
     def __iter__(self):
         while len(self) > 0:
             yield self.dequeue()
+
+# Class Inheritance from the FIFOqueues.py file (appended as a mixin class)
+class Queue(IterableMixin):
+    def __init__(self, * elements):
+        self._elements = deque(elements) # Appending the leading underscore __ on the "element" to provide an internal bit of implementation, which only the class should access and modify.
+    
+    # Compatible with the len() function/s.
+    def __len__(self): # Returns the number of elements in the queue (default is 1).
+        return len(self._elements)
+    
+    # Class instance methods usable such as for loop.
+    def __iter__(self): # Returns an iterator of the elements in the queue that are currently enqueued.
+        while len(self) > 0:
+            yield self.dequeue() # Enqueue the next element in the queue without waiting for the next call to enqueue to complete.
+            
+    # Enqueue a single element to the queue and return the element itself to the caller as a string.
+    def enqueue(self, element):
+        self._elements.append(element)
+
+    # Dequeue an element from the queue and return it as a string.
+    def dequeue(self):
+        return self._elements.popleft()
 
 class PriorityQueue(IterableMixin):
     # Init function for the Priority Queues program itself and its dependencies.
