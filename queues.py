@@ -18,3 +18,8 @@ class Queue:
     # Dequeue an element from the queue and return it as a string.
     def dequeue(self):
         return self.elements.popleft()
+
+fifo = Queue()
+fifo.enqueue('1st')
+fifo.enqueue('2nd')
+fifo.enqueue('3rd')
