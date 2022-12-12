@@ -3,6 +3,7 @@
 
 # For best manipulation efficiency, we will use the heap data structure algorithm.
 from heapq import heappush # heapq module is used for O(log(n)) data volumes.
+from heapq import heappop # Imported from heapq module.
 
 fruits = [] # Fruits variable empty list.
 # Non-empty heap function to maintain a heap invariant. It is not sorted but it would arrange everything on the right position.
@@ -11,3 +12,5 @@ heappush(fruits, 'avocado')
 heappush(fruits, 'strawberry')
 
 print(f"\n{fruits}\n") # Printing out the output for the program.
+
+print(heappop(fruits) + "\n") # Using heappop will always get the first element while the remaining elements in the list might shuffle a little bit.
