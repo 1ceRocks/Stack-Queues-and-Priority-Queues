@@ -2,8 +2,7 @@
 # In this file, we need to create a different hierarchy for each process as the concept program subsides with priority queues. There is also an insertion order for us to determine on which new element is labeled for dequeueing. It's like removing the element from the highest priority as first iteration up to the least priority itself.
 
 # For best manipulation efficiency, we will use the heap data structure algorithm.
-from heapq import heappush # heapq module is used for O(log(n)) data volumes.
-from heapq import heappop # Imported from heapq module.
+from heapq import heappush, heappop # heapq module is used for O(log(n)) data volumes.
 
 fruits = [] # Fruits variable empty list.
 # Non-empty heap function to maintain a heap invariant. It is not sorted but it would arrange everything on the right position.
@@ -24,7 +23,7 @@ player1 = ('Carlos', 'Christian', 40)
 player2 = ('Carlos', 'Fidel', 40)
 player3 = ('Carlos', 'Fidel', 14)
 
-if player1 < player2:
+if player1 < player2: # Age comparison is nullified because the ordering is already unknown.
     print("True")
-elif player2 < player3:
+elif player2 < player3: # Age comparison is now considered.
     print("False") # This can't be printed out as the elif condition is not satisfied based on the tuple comparison value.
