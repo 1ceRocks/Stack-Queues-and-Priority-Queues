@@ -3,6 +3,7 @@
 
 # Importing the required Python module and packages for the Priority Queues program rundown.
 from collections import deque; from heapq import heappop, heappush
+from queues import PriorityQueue
 
 # Class variables required to return the values from the Python module.
 class PriorityQueue:
@@ -17,3 +18,8 @@ class PriorityQueue:
     # Heappop for dequeueing elements from the Priority Queue.
     def dequeue(self):
         return heappop(self.elements)
+
+# This variable with values determine the priority stack necessary for comparing them side by side.
+URGENT = 3
+MEDIOCRE = 2
+UNDER_NORMAL_CONDITIONS = 1
