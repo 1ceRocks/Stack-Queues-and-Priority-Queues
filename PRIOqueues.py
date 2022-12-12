@@ -3,20 +3,25 @@
 
 # Importing the required Python module and packages for the Priority Queues program rundown.
 from collections import deque; from heapq import heappop, heappush
+from itertools import count # Implementing the itertools module to count from zero to infinity in a concise way.
 
 # Class variables required to return the values from the Python module.
+# The new concept of this program is to show the count() function as an incremental stage that sets its retaining value for every appended element. When tuple is pushed onto the heap, the same latter priority will be the next to dequeued as the earlier element will take the precedence.
+
 class PriorityQueue:
     # Init function for the Priority Queues program itself and its dependencies.
     def __init__(self):
-        self.elements = []
+        self._elements = []
+        self._counter = count()
 
     # Inserting an element into the Priority Queue.
     def enqueue_with_priority(self, priority, value):
-        heappush(self.elements, (-priority, value)) # Flipping into a negative sign priority because the default value in the module is a min-heap which corresponds to the first element who always has the lowest value. Contrary to that instantiation, this configuration is used.
+        element = (-priority, next(self._counter), value) # Popped value index will cause the ought returning value located to increase by a single digit. So using the negative sign would indicate the last component of the tuple, regardless of its length.
+        heappush(self._elements, element)
 
     # Heappop for dequeueing elements from the Priority Queue.
     def dequeue(self):
-        return heappop(self.elements)[1] # The index of the element to be printed out.
+        return heappop(self._elements)[-1] # The index of the element to be printed out.
 
 # This variable with values determine the priority stack necessary for comparing them side by side.
 URGENT = 3
