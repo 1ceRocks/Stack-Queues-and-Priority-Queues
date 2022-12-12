@@ -3,7 +3,6 @@
 
 # Importing the required Python module and packages for the Priority Queues program rundown.
 from collections import deque; from heapq import heappop, heappush
-from queues import PriorityQueue
 
 # Class variables required to return the values from the Python module.
 class PriorityQueue:
@@ -23,3 +22,12 @@ class PriorityQueue:
 URGENT = 3
 MEDIOCRE = 2
 UNDER_NORMAL_CONDITIONS = 1
+
+# Implemented a descriptive string defining the type of priority queue used in real-time situations.
+notification = PriorityQueue()
+notification.enqueue_with_priority(MEDIOCRE, 'Acute Rheumatic Fever')
+notification.enqueue_with_priority(UNDER_NORMAL_CONDITIONS, 'Bruises and Minor Injuries')
+notification.enqueue_with_priority(URGENT, 'Myocardial Infarction')
+notification.enqueue_with_priority(MEDIOCRE, 'Asthma Attack')
+
+print(notification.dequeue()) # Tuple corresponding with the lowest priority in the notification queue.
