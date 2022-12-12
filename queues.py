@@ -35,7 +35,13 @@ fifo.enqueue('1st')
 fifo.enqueue('2nd')
 fifo.enqueue('3rd')
 
+# Class for testing out our FIFO queue implementation
 def main():
-    print(fifo.dequeue())
-
-main()
+    fifo = Queue('1st', '2nd', '3rd') # Create a FIFO queue with two elements each of which should be enqueued together.
+    print(len(fifo)) # Len queue is still not called yet so the value here would always be 3.
+    # For loop reduces its size on each single file element to be called once per queue by dequeueing elements from itself as we iterate through them.
+    for element in fifo: 
+        print(element)
+    print(len(fifo)) # Len queue has been iterated so no element is currently queued, the value here would always be 0.
+    
+main() # Def caller function for testing out our FIFO queue implementation.
