@@ -1,5 +1,5 @@
-# Priority Queues Python File
-# In this file, we need to create a different hierarchy for each process as the concept program subsides with priority queues. There is also an insertion order for us to determine on which new element is labeled for dequeueing. It's like removing the element from the highest priority as first iteration up to the least priority itself.
+# Heap Queues Python File
+# In this file, doing heap data structure distinguish elements from their value, therefore their indexes are defined and positioned from maximum to minimum and dequeueing them are in the same order considering the corresponding parameter using tuple comparison.
 
 # For best manipulation efficiency, we will use the heap data structure algorithm.
 from heapq import heappush, heappop # heapq module is used for O(log(n)) data volumes.
