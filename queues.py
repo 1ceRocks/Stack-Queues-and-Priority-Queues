@@ -7,3 +7,9 @@ from collections import deque
 class Queue:
     def __init__(self):
         self.elements = deque()
+    
+    def enqueue(self, value):
+        self.elements.append(value)
+
+    def dequeue(self):
+        return self.elements.popleft()  
