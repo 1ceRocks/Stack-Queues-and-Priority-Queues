@@ -6,5 +6,14 @@ from collections import deque; from heapq import heappop, heappush
 
 # Class variables required to return the values from the Python module.
 class PriorityQueue:
+    # Init function for the Priority Queues program itself and its dependencies.
     def __init__(self):
         self.elements = []
+
+    # Inserting an element into the Priority Queue.
+    def enqueue_with_priority(self, priority, value):
+        heappush(self.elements, (priority, value))
+
+    # Heappop for dequeueing elements from the Priority Queue.
+    def dequeue(self):
+        return heappop(self.elements)
