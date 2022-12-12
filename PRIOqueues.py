@@ -17,4 +17,14 @@ fruitpop = heappop(fruits) # Created a new variable to hold the function heappop
 
 print(fruitpop + "\n") # Using heappop will always get the first element while the remaining elements in the list might shuffle a little bit.
 
-print(fruits + "\n") # The list is still in the right position when avocado is called out and dequeued. The lower unicode from Python to compare two string objects by value will reorder the words position from the list.
+print(f"{fruits}\n") # The list is still in the right position when avocado is called out and dequeued. The lower unicode from Python to compare two string objects by value will reorder the words position from the list.
+
+# # Note that the heap compares elements by value rather than their priority. It is like a lot of Python tuple function.
+# player1 = ('Carlos', 'Christian', 40)
+# player2 = ('Carlos', 'Fidel', 40)
+# player3 = ('Carlos', 'Fidel', 14)
+
+# if player1 < player2:
+#     print("True")
+# elif player2 < player3:
+#     print("False")
