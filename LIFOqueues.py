@@ -49,8 +49,15 @@ def main():
 main() # Def caller function for testing out our lifo queue implementation.
 
 # Python List - Rudimentary Stack (one-off script implementation) as an alternative to the standard Python List implementation.
-lifo = []
+lifo = [] # Empty lifo variable list.
 
 lifo.append('First')
 lifo.append('Second')
 lifo.append('Third')
+
+def appendMain():
+    print(lifo.pop()) # Each element of the list is dequeued using the same function as .pop() - Third is dequeued and iterated.
+    print(lifo.pop()) # Second is dequeued and iterated.
+    print(lifo.pop() + "\n") # First is dequeued and iterated.
+
+appendMain() # Def caller function for testing out our alternative lifo queue implementation.
