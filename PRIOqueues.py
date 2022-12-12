@@ -12,11 +12,11 @@ class PriorityQueue:
 
     # Inserting an element into the Priority Queue.
     def enqueue_with_priority(self, priority, value):
-        heappush(self.elements, (priority, value))
+        heappush(self.elements, (-priority, value)) # Flipping into a negative sign priority because the default value in the module is a min-heap which corresponds to the first element who always has the lowest value. Contrary to that instantiation, this configuration is used.
 
     # Heappop for dequeueing elements from the Priority Queue.
     def dequeue(self):
-        return heappop(self.elements)
+        return heappop(self.elements)[1] # The index of the element to be printed out.
 
 # This variable with values determine the priority stack necessary for comparing them side by side.
 URGENT = 3
@@ -30,4 +30,4 @@ notification.enqueue_with_priority(UNDER_NORMAL_CONDITIONS, 'Bruises and Minor I
 notification.enqueue_with_priority(URGENT, 'Myocardial Infarction')
 notification.enqueue_with_priority(MEDIOCRE, 'Asthma Attack')
 
-print(notification.dequeue()) # Tuple corresponding with the lowest priority in the notification queue.
+print(f"\n{notification.dequeue()}\n") # Tuple corresponding with the lowest priority in the notification queue.
