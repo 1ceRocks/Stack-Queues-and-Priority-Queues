@@ -3,6 +3,8 @@
 
 # Importing the Queues module from Python
 from collections import deque
+# Importing a local module for testing out our FIFO queue.
+from queues import Queue
 
 # Class variables for the queue implementation of enqueue and dequeue.
 class Queue:
@@ -15,4 +17,4 @@ class Queue:
 
     # Dequeue an element from the queue and return it as a string.
     def dequeue(self):
-        return self.elements.popleft()  
+        return self.elements.popleft()
