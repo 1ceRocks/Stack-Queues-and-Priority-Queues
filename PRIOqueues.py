@@ -30,4 +30,12 @@ notification.enqueue_with_priority(UNDER_NORMAL_CONDITIONS, 'Bruises and Minor I
 notification.enqueue_with_priority(URGENT, 'Myocardial Infarction')
 notification.enqueue_with_priority(MEDIOCRE, 'Asthma Attack')
 
-print(f"\n{notification.dequeue()}\n") # Tuple corresponding with the lowest priority in the notification queue.
+def emergencyMeasures():
+    # Tuple corresponding with the lowest priority in the notification queue.
+    print(f"\nPriority Queue")
+    print(f"1 - {notification.dequeue()}")
+    print(f"2 - {notification.dequeue()}")
+    print(f"3 - {notification.dequeue()}")
+    print(f"4 - {notification.dequeue()}\n")
+
+emergencyMeasures()
