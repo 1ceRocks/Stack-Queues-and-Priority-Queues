@@ -5,3 +5,9 @@
 from heapq import heappush # heapq module is used for O(log(n)) data volumes.
 
 fruits = [] # Fruits variable empty list.
+# Non-empty heap function to maintain a heap invariant. It is not sorted but it would arrange everything on the right position.
+heappush(fruits, 'peach')
+heappush(fruits, 'avocado')
+heappush(fruits, 'strawberry')
+
+print(f"\n{fruits}\n") # Printing out the output for the program.
