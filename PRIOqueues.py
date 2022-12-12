@@ -8,7 +8,16 @@ from itertools import count # Implementing the itertools module to count from ze
 # Class variables required to return the values from the Python module.
 # The new concept of this program is to show the count() function as an incremental stage that sets its retaining value for every appended element. When tuple is pushed onto the heap, the same latter priority will be the next to dequeued as the earlier element will take the precedence.
 
-class PriorityQueue:
+# Mixin Class (meaning they are dependent on another class defined in the Python module)
+class IterableMixin:
+    def __len__(self):
+        return len(self._elements)
+
+    def __iter__(self):
+        while len(self) > 0:
+            yield self.dequeue()
+
+class PriorityQueue(IterableMixin):
     # Init function for the Priority Queues program itself and its dependencies.
     def __init__(self):
         self._elements = []
