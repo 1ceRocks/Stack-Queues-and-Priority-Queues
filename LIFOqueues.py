@@ -5,7 +5,7 @@
 
 # Importing the Queues module from Python
 from collections import deque
-# Importing a local module for testing out our FIFO queue.
+# Importing a local module for testing out our LIFO queue.
 # from queues import Queue
 
 # Class variables for the queue implementation of enqueue and dequeue.
@@ -31,19 +31,26 @@ class Stack(): # Class Inheritance
     def dequeue(self):
         return self.__elements.pop() # From popleft() to pop() (to right) specifically for LIFO queues.
 
-# Main functions for testing out our FIFO queue implementation.
-fifo = Stack() # Added class inheritance for caller functions towards this variable.
-fifo.enqueue('First')
-fifo.enqueue('Second')
-fifo.enqueue('Third')
+# Main functions for testing out our LIFO queue implementation.
+lifo = Stack() # Added class inheritance for caller functions towards this variable.
+lifo.enqueue('First')
+lifo.enqueue('Second')
+lifo.enqueue('Third')
 
-# Class for testing out our FIFO queue implementation
+# Class for testing out our lifo queue implementation
 def main():
-    fifo = Stack('First', 'Second', 'Third') # Create a FIFO queue with two elements each of which should be enqueued together.
-    print(f"\n{len(fifo)} - before iteration (elements are not yet dequeued)") # Len queue is still not called yet so the value here would always be 3.
+    lifo = Stack('First', 'Second', 'Third') # Create a LIFO queue with two elements each of which should be enqueued together.
+    print(f"\n{len(lifo)} - before iteration (elements are not yet dequeued)") # Len queue is still not called yet so the value here would always be 3.
     # For loop reduces its size on each single file element to be called once per queue by dequeueing elements from itself as we iterate through them.
-    for element in fifo: 
+    for element in lifo: 
         print(element)
-    print(f"{len(fifo)} - after iteration (elements are dequeued)\n") # Len queue has been iterated so no element is currently queued, the value here would always be 0.
+    print(f"{len(lifo)} - after iteration (elements are dequeued)\n") # Len queue has been iterated so no element is currently queued, the value here would always be 0.
     
-main() # Def caller function for testing out our FIFO queue implementation.
+main() # Def caller function for testing out our lifo queue implementation.
+
+# Python List - Rudimentary Stack (one-off script implementation) as an alternative to the standard Python List implementation.
+lifo = []
+
+lifo.append('First')
+lifo.append('Second')
+lifo.append('Third')
