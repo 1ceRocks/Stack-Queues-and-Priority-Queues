@@ -45,5 +45,3 @@ def main():
     print(f"{len(fifo)} - after iteration (elements are dequeued)\n") # Len queue has been iterated so no element is currently queued, the value here would always be 0.
  
 main() # Def caller function for testing out our FIFO queue implementation.
-
-Test commit
