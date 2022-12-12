@@ -6,6 +6,13 @@
 # Imported data class module and class to represent messages in the queue.
 from dataclasses import dataclass
 
+# Data class module and class to represent messages in the priority queue.
 @dataclass
-class Message:
+class notification:
     event: str
+
+# Class variables for processing queue implementation that entails them with the same priority order.
+acute = notification("Acute Rheumatic Fever")
+asthma = notification("Asthma Attack")
+
+acute < asthma # An error message in the terminal containing TypeError: '<' not supported between instances of 'Message' and 'Message'
