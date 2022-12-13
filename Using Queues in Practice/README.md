@@ -1,7 +1,7 @@
 # Python Queues Files (To Be Modified Below)
 
-L E G E N D | ... .py
+**L E G E N D** | ... .py 
 
-objectRep - Object Representation of the Cities and Roads
+_objectRep_- Object Representation of the Cities and Roads <br />
 
 Note: All are separate graph visual Python file for individual checking.
