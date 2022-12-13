@@ -9,3 +9,13 @@ from graph import City, load_graph
 # This def function argument are returning a value whose boolean operators are considered between the 20th century.
 def is_twentieth_century(year):
     return year and 1901 <= year <= 2000
+
+nodes, graph = load_graph("Stack-Queues-and-Priority-Queues/Using Queues in Practice/roadmap.dot", City.from_dict)
+print("")
+for node in nx.bfs_tree(graph, nodes["bristol"]):
+    print("📍", node.name)
+    if is_twentieth_century(node.year):
+        print("\n✅ Found:", node.name, node.year, "\n")
+        break
+else:
+    print("\n📎None Found\n")
