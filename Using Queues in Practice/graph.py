@@ -11,3 +11,15 @@ class City(NamedTuple):
     year: int | None
     latitude: float
     longitude: float
+
+    # Defined properly to ensure that these nodes are hashable.
+    @classmethod
+    def from_dict(cls, attributes):
+        return cls(
+            # The key value pairs of the parameter attribute are with reference on the roadmap.dot file
+            name = attributes["xlabel"],
+            country = attributes["country"],
+            year = int(attributes["year"]) or None,
+            latitude = float(attributes["latitude"]),
+            longitude = float(attributes["longitude"]),
+        )
