@@ -10,6 +10,7 @@ from graph import City, load_graph
 def is_twentieth_century(year):
     return year and 1901 <= year <= 2000
 
+# Source node. This function is in sequential order without interruption before moving to the next layer of the graph. The subsequent layer consists of the second-level neighbors starting from the source node.
 nodes, graph = load_graph("Stack-Queues-and-Priority-Queues/Using Queues in Practice/roadmap.dot", City.from_dict)
 print("")
 for node in nx.bfs_tree(graph, nodes["edinburgh"]):
@@ -19,3 +20,9 @@ for node in nx.bfs_tree(graph, nodes["edinburgh"]):
         break   
 else:
     print("\n📎None Found\n")
+
+# Determining the latitude of city by iterating them in sorted order. reverse = True means the exact opposite direction of the graph in concentric layers or levels.
+def order(neighbors):
+    def by_latitude(city):
+        return city.latitude
+    return iter(sorted(neighbors, key = by_latitude, reverse = True))
