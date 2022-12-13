@@ -30,10 +30,11 @@ class Queue:
         return self.__elements.popleft()
 
 # Main functions for testing out our FIFO queue implementation.
-fifo = Queue()
-fifo.enqueue('First')
-fifo.enqueue('Second')
-fifo.enqueue('Third')
+# This would be unnecessary if elements line 41 was already defined into a variable (fifo).
+# fifo = Queue()
+# fifo.enqueue('First')
+# fifo.enqueue('Second')
+# fifo.enqueue('Third')
 
 # Class for testing out our FIFO queue implementation
 def main():
