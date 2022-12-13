@@ -40,6 +40,7 @@ def load_graph(filename, node_factory):
         for name1, name2, weights in graph.edges(data = True)
     )
 
+# Note that it uses a reference FIFO queue (REFqueues.py) from the queues module to keep track of the node neighbors, ensuring that you’ll explore them in sequence on each layer. The function also marks visited nodes by adding them to a Python set, so that each neighbor is visited at most once.
 def breadth_first_traverse(graph, source):
     queue = Queue(source)
     visited = {source}
@@ -55,6 +56,7 @@ def breadth_first_search(graph, source, predicate):
         if predicate(node):
             return node
 
+# This function builds on top of the first one by looping over the yielded nodes, and stops once the current node meets the expected criteria. If none of the nodes make the predicate truthy, then the function implicitly returns None.
 def breadth_first_traverse(graph, source):
     queue = Queue(source)
     visited = {source}
