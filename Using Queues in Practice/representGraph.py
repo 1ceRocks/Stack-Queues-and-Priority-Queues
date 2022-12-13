@@ -15,3 +15,18 @@ print("")
 for neighbor, weights in graph[nodes["bristol"]].items():
     print(weights["distance"], neighbor.name)
 print("")
+
+# Defined a helper function that returns a list of neighbors and their weights sorted by the specified strategy.
+
+# It takes a dictionary of all the weights associated with an edge argument and finally returns a sorting key.
+def sort_by(neighbors, strategy):
+    return sorted(neighbors.items(), key = lambda item: strategy(item[1]))
+
+# Defined a concrete strategy that produces a floating-point distance based on the input dictionary.
+def by_distance(weights):
+    return float(weights["distance"])
+
+# This will iterate over the neighbors of Bristol, sorted by distance in ascending order.
+for neighbor, weights in sort_by(graph[nodes["london"]], by_distance):
+    print(f"{weights['distance']:>3} miles, {neighbor.name}")
+print("")
