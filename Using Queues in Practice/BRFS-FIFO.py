@@ -26,3 +26,13 @@ def order(neighbors):
     def by_latitude(city):
         return city.latitude
     return iter(sorted(neighbors, key = by_latitude, reverse = True))
+
+for node in nx.bfs_tree(graph, nodes["edinburgh"], sort_neighbors=order):
+    print("📍", node.name)
+    if is_twentieth_century(node.year):
+        print("\n✅ Found:", node.name, node.year, "\n")
+        break
+else:
+    print("\n📎None Found\n")
+
+# The terminal output should be different since higher and lower latitude is compared like the Newcastle since it does have a greater amount of latitude compared to Carlisle and therefore is visited.
