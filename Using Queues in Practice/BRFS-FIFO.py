@@ -4,3 +4,8 @@
 
 # Importing this library helps the methods, functions, and arguments on specified algorithm which can help cross-check for future implementation.
 import networkx as nx
+from graph import City, load_graph
+
+# This def function argument are returning a value whose boolean operators are considered between the 20th century.
+def is_twentieth_century(year):
+    return year and 1901 <= year <= 2000
