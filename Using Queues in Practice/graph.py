@@ -14,6 +14,7 @@ class City(NamedTuple):
 
     # Defined properly to ensure that these nodes are hashable.
     @classmethod
+    # The purpose of from_dict() class is to take a set of dictionary attributes extracted from the DOT relative path file and returns as a new instance of this City class.
     def from_dict(cls, attributes):
         return cls(
             # The key value pairs of the parameter attribute are with reference on the roadmap.dot file
