@@ -3,4 +3,9 @@
 
 # pygraphviz and networkx libraries are the only libraries that would be useful throughout this program as well as the DOT graph file from the source code material.
 import networkx as nx # With the help of pygraphviz (acting as third-party library), it provides functions that delegate this task and manipulate the coordinates of the graph in the sample DOT file.
-print(nx.nx_agraph.read_dot("Stack-Queues-and-Priority-Queues/Using Queues in Practice/roadmap.dot"))
+# print(nx.nx_agraph.read_dot("Stack-Queues-and-Priority-Queues/Using Queues in Practice/roadmap.dot"))
+
+#Testing out one string map from the roadmap file to a corresponding dictionary of keyvalue pairs.
+graphTest = nx.nx_agraph.read_dot("Stack-Queues-and-Priority-Queues/Using Queues in Practice/roadmap.dot")
+print(f"\n{graphTest}")
+print(f"{graphTest.nodes['bristol']}\n")
