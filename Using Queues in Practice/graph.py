@@ -3,6 +3,7 @@
 # From this program, we'll need a module and a class package, known as typing.
 # Imported networkx to visualize our graph.
 from typing import NamedTuple; import networkx as nx
+from REFqueues import Queue
 
 # Configured data class for later cases such as the requirement of networkx.
 # This is also comparable that is hashable out of the box which is essential to visualize the traversal order of the graph.
@@ -38,3 +39,28 @@ def load_graph(filename, node_factory):
         (nodes[name1], nodes[name2], weights)
         for name1, name2, weights in graph.edges(data = True)
     )
+
+def breadth_first_traverse(graph, source):
+    queue = Queue(source)
+    visited = {source}
+    while queue:
+        yield (node := queue.dequeue())
+        for neighbor in graph.neighbors(node):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.enqueue(neighbor)
+
+def breadth_first_search(graph, source, predicate):
+    for node in breadth_first_traverse(graph, source):
+        if predicate(node):
+            return node
+
+def breadth_first_traverse(graph, source):
+    queue = Queue(source)
+    visited = {source}
+    for node in queue:
+        yield node
+        for neighbor in graph.neighbors(node):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.enqueue(neighbor)
