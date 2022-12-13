@@ -32,10 +32,10 @@ class Stack(): # Class Inheritance
         return self.__elements.pop() # From popleft() to pop() (to right) specifically for LIFO queues.
 
 # Main functions for testing out our LIFO queue implementation.
-lifo = Stack() # Added class inheritance for caller functions towards this variable.
-lifo.enqueue('First')
-lifo.enqueue('Second')
-lifo.enqueue('Third')
+# lifo = Stack() # Added class inheritance for caller functions towards this variable.
+# lifo.enqueue('First')
+# lifo.enqueue('Second')
+# lifo.enqueue('Third')
 
 # Class for testing out our lifo queue implementation
 def main():
@@ -56,8 +56,12 @@ lifo.append('Second')
 lifo.append('Third')
 
 def appendMain():
-    print(lifo.pop()) # Each element of the list is dequeued using the same function as .pop() - Third is dequeued and iterated.
-    print(lifo.pop()) # Second is dequeued and iterated.
-    print(lifo.pop() + "\n") # First is dequeued and iterated.
+    lifo = ['First', 'Second', 'Third']
+    for LIFOqueues in lifo:
+        print(lifo.pop())
+        # Each element of the list is dequeued using the same function as .pop() - Third is dequeued and iterated.
+        # Second is dequeued and iterated.
+        # First is dequeued and iterated.
+    print("")
 
 appendMain() # Def caller function for testing out our alternative lifo queue implementation.
