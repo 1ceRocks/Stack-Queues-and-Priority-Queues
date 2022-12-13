@@ -27,9 +27,14 @@ class City(NamedTuple): # This class formats the syntax for getting the values f
         )
 
 # This def() function imports the file; more likely a call identifier for preparation to classify its formats and syntax.
+# Node_factory takes a set of callable factory by reading the data extracted and builds a mapping of node identifiers to the Object-Oriented representation of the graph nodes.
 def load_graph(filename, node_factory):
     graph = nx.nx_agraph.read_dot(filename)
     nodes = {
         name: node_factory(attributes)
         for name, attributes in graph.nodes(data = True)
     }
+    return nodes, nx.Graph(
+        (nodes[name1], nodes[name2], weights)
+        for name1, name2, weights in graph.edges(data = True)
+    )
