@@ -10,13 +10,15 @@ heappush(fruits, 'peach')
 heappush(fruits, 'avocado')
 heappush(fruits, 'strawberry')
 
-print(f"\n{fruits}\n") # Printing out the output for the program.
+def mainFruits():
+    print(f"\n{fruits}\n") # Printing out the output for the program.
 
-fruitpop = heappop(fruits) # Created a new variable to hold the function heappop().
+    for elements in fruits:
+        fruitpop = heappop(fruits) # Created a new variable to hold the function heappop().
+        print(fruitpop + "\n") # Using heappop will always get the first element while the remaining elements in the list might shuffle a little bit.
+        print(f"{fruits}\n") # The list is still in the right position when avocado is called out and dequeued. The lower unicode from Python to compare two string objects by value will reorder the words position from the list.
 
-print(fruitpop + "\n") # Using heappop will always get the first element while the remaining elements in the list might shuffle a little bit.
-
-print(f"{fruits}\n") # The list is still in the right position when avocado is called out and dequeued. The lower unicode from Python to compare two string objects by value will reorder the words position from the list.
+mainFruits()
 
 # Note that the heap compares elements by value rather than their priority. It is like a lot of Python tuple function.
 player1 = ('Carlos', 'Christian', 40)
