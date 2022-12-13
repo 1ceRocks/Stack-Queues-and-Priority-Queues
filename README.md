@@ -10,12 +10,12 @@ Needed Packages / MOdules from PIP Python (can be executed on the terminal outpu
 # PIP should be installed and upgraded to latest version.
 # Python 3 or higher is needed for test purposes.
 
-Python Queues Folder
-collection = pip install collection
-queues = pip install queues
-
-Using Queues in Practice Folder
-pygraphviz = C compiler toolchain (Full tutorial: https://pygraphviz.github.io/documentation/stable/install.html)
-networkx = pip install networkx
+Python Queues Folder <br />
+collection = pip install collection <br />
+queues = pip install queues <br />
+<br />
+Using Queues in Practice Folder <br />
+pygraphviz = C compiler toolchain (Full tutorial: https://pygraphviz.github.io/documentation/stable/install.html) <br />
+networkx = pip install networkx <br />
 
 Disclaimer: Purpose = DSA - Activity
