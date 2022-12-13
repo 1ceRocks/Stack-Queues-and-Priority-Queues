@@ -57,11 +57,8 @@ lifo.append('Third')
 
 def appendMain():
     lifo = ['First', 'Second', 'Third']
-    for LIFOqueues in lifo:
-        print(lifo.pop())
-        # Each element of the list is dequeued using the same function as .pop() - Third is dequeued and iterated.
-        # Second is dequeued and iterated.
-        # First is dequeued and iterated.
-    print("")
+    print(lifo.pop()) # Each element of the list is dequeued using the same function as .pop() - Third is dequeued and iterated.
+    print(lifo.pop()) # Second is dequeued and iterated.
+    print(lifo.pop() + "\n") # First is dequeued and iterated.
 
 appendMain() # Def caller function for testing out our alternative lifo queue implementation.
