@@ -71,7 +71,11 @@ notification.enqueue_with_priority(MEDIOCRE, 'Asthma Attack')
 def emergencyMeasures():
     # Tuple corresponding with the lowest priority in the notification queue.
     print(f"\nPriority Queue")
-    print(f"1 - {notification.dequeue()} \n2 - {notification.dequeue()} \n3 - {notification.dequeue()} \n4 - {notification.dequeue()}\n")
+    items = 0
+    for elements in notification:
+        items += 1
+        print(f"{items} - {elements}")
+    print("")
     # print(f"2 - {notification.dequeue()}")
     # print(f"3 - {notification.dequeue()}")
     # print(f"4 - {notification.dequeue()}\n")
