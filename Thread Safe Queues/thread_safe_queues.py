@@ -5,6 +5,8 @@
 # Importing the necessary module and queue classes into the global namespace.
 import argparse, threading
 from queue import LifoQueue, PriorityQueue, Queue
+from random import randint
+from time import sleep
 
 # Dictionary maps queue names to their respective classes, which we call to create a new queue instance based on the value of a command-line argument.
 QUEUE_TYPES = {
@@ -62,3 +64,10 @@ class Worker(threading.Thread):
         self.product = None
         self.working = False
         self.progress = 0
+    
+    # The .state property returns a string with either the product’s name and the progress of work or a generic message indicating that the worker is currently idle.
+    @property
+    def state(self):
+        if self.working:
+            return f"{self.product} ({self.progress}%)"
+        return ":zzz: Idle"
