@@ -47,6 +47,27 @@ PRODUCTS = (
     ":yo-yo:",
 )
 
+# To use a synchronized priority queue or a heap, you’ll need to make a few adjustments in your code. First of all, you’re going to need a new kind of product that has an associated priority, so define two new data types:
+# To represent products, we use a data class with a customized string representation and ordering enabled, but we're careful not to compare the products by their label. In this case, we expect the label to be a string, but generally, it could be any object that might not be comparable at all. We also define an enum class with known priority values and three products with descending priorities from highest to lowest.
+@dataclass(order=True)
+class Product:
+    priority: int
+    label: str = field(compare=False)
+
+    def __str__(self):
+        return self.label
+
+class Priority(IntEnum):
+    HIGH = 1
+    MEDIUM = 2
+    LOW = 3
+
+PRIORITIZED_PRODUCTS = (
+    Product(Priority.HIGH, ":1st_place_medal:"),
+    Product(Priority.MEDIUM, ":2nd_place_medal:"),
+    Product(Priority.LOW, ":3rd_place_medal:"),
+)
+
 # The worker class extends the threading.Thread class and configures itself as a daemon thread so that its instances won’t prevent your program from exiting when the main thread finishes, for example, due to a keyboard interrupt signal. A worker object expects the speed rate to work with and a buffer queue to put finished products into or get them from.
 class Worker(threading.Thread):
     def __init__(self, speed, buffer):
@@ -155,7 +176,7 @@ class Consumer(Worker):
 # The main() function is the entry point for the command-line interface. It takes a command-line argument and returns a queue instance. 
 def main(args):
     buffer = QUEUE_TYPES[args.queue]()
-    products = PRIORITIZED_PRODUCTS if args.queue == "help" else PRODUCTS
+    products = PRIORITIZED_PRODUCTS if args.queue == "heap" else PRODUCTS
     producers = [
         Producer(args.producer_speed, buffer, PRODUCTS)
         for _ in range(args.producers)
@@ -189,24 +210,3 @@ if __name__ == "__main__":
         main(parse_args())
     except KeyboardInterrupt:
         pass
-
-# To use a synchronized priority queue or a heap, you’ll need to make a few adjustments in your code. First of all, you’re going to need a new kind of product that has an associated priority, so define two new data types:
-# To represent products, we use a data class with a customized string representation and ordering enabled, but we're careful not to compare the products by their label. In this case, we expect the label to be a string, but generally, it could be any object that might not be comparable at all. We also define an enum class with known priority values and three products with descending priorities from highest to lowest.
-@dataclass(order=True)
-class Product:
-    priority: int
-    label: str = field(compare=False)
-
-    def __str__(self):
-        return self.label
-
-class Priority(IntEnum):
-    HIGH = 1
-    MEDIUM = 2
-    LOW = 3
-
-PRIORITIZED_PRODUCTS = (
-    Product(Priority.HIGH, ":1st_place_medal:"),
-    Product(Priority.MEDIUM, ":2nd_place_medal:"),
-    Product(Priority.LOW, ":3rd_place_medal:"),
-)
