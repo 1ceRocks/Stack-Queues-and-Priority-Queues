@@ -3,7 +3,7 @@
 # We're going to implement a classic multi-producer, multi-consumer problem using this Python program. It usually visualizes / represents a command-line interface script that lets us decide on the number of producers and consumers, their relative speed rates, and the type of queue:
 
 # Importing the necessary module and queue classes into the global namespace.
-import argparse
+import argparse, threading
 from queue import LifoQueue, PriorityQueue, Queue
 
 # Dictionary maps queue names to their respective classes, which we call to create a new queue instance based on the value of a command-line argument.
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         pass
 
-# Textual codes that Rich will eventually replace with the corresponding emoji glyphs. For example, :balloon: will render as 🎈.
+# Textual codes that Rich will eventually replace with the corresponding emoji glyphs. For example, :balloon: will render as 🎈. The producer and consumer will share a wealth of attributes and behaviors, which you can encapsulate in a common base class:
 PRODUCTS = (
     ":balloon:",
     ":cookie:",
@@ -52,3 +52,13 @@ PRODUCTS = (
     ":thread:",
     ":yo-yo:",
 )
+
+# The worker class extends the threading.Thread class and configures itself as a daemon thread so that its instances won’t prevent your program from exiting when the main thread finishes, for example, due to a keyboard interrupt signal. A worker object expects the speed rate to work with and a buffer queue to put finished products into or get them from.
+class Worker(threading.Thread):
+    def __init__(self, speed, buffer):
+        super().__init__(daemon = True)
+        self.speed = speed
+        self.buffer = buffer
+        self.product = None
+        self.working = False
+        self.progress = 0
