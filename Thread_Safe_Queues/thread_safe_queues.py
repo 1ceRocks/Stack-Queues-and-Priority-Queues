@@ -23,26 +23,6 @@ QUEUE_TYPES = {
     "heap": PriorityQueue,
 }
 
-# The main() function is the entry point for the command-line interface. It takes a command-line argument and returns a queue instance. 
-def main(args):
-    buffer = QUEUE_TYPES[args.queue]()
-
-# Receives the parsed arguments supplied by parse_args() that we defined.
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-q", "--queue", choices=QUEUE_TYPES, default="fifo")
-    parser.add_argument("-p", "--producers", type=int, default=3)
-    parser.add_argument("-c", "--consumers", type=int, default=2)
-    parser.add_argument("-ps", "--producer-speed", type=int, default=1)
-    parser.add_argument("-cs", "--consumer-speed", type=int, default=1)
-    return parser.parse_args()
-
-# TODO: support multiple producers and consumers.
-if __name__ == "__main__":
-    try:
-        main(parse_args())
-    except KeyboardInterrupt:
-        pass
 
 # Textual codes that Rich will eventually replace with the corresponding emoji glyphs. For example, :balloon: will render as 🎈. The producer and consumer will share a wealth of attributes and behaviors, which you can encapsulate in a common base class:
 PRODUCTS = (
@@ -157,3 +137,50 @@ class Producer(Worker):
             self.simulate_work()
             self.buffer.put(self.product)
             self.simulate_idle()
+
+# A consumer is very similar, but even more straightforward than a producer:
+# It also works in an infinite loop, waiting for a product to appear in the queue. The .get() method is blocking by default, which will keep the consumer thread stopped and waiting until there’s at least one product in the queue. This way, a waiting consumer won’t be wasting any CPU cycles while the operating system allocates valuable resources to other threads doing useful work.
+class Consumer(Worker):
+    def run(self):
+        while True:
+            self.product = self.buffer.get()
+            self.simulate_work()
+            self.buffer.task_done()
+            self.simulate_idle()
+            
+# The main() function is the entry point for the command-line interface. It takes a command-line argument and returns a queue instance. 
+def main(args):
+    buffer = QUEUE_TYPES[args.queue]()
+    producers = [
+        Producer(args.producer_speed, buffer, PRODUCTS)
+        for _ in range(args.producers)
+    ]
+    consumers = [
+        Consumer(args.consumer_speed, buffer) for _ in range(args.consumers)
+    ]
+
+    for producer in producers:
+        producer.start()
+
+    for consumer in consumers:
+        consumer.start()
+
+    view = View(buffer, producers, consumers)
+    view.animate()
+
+# Receives the parsed arguments supplied by parse_args() that we defined.
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-q", "--queue", choices=QUEUE_TYPES, default="fifo")
+    parser.add_argument("-p", "--producers", type=int, default=3)
+    parser.add_argument("-c", "--consumers", type=int, default=2)
+    parser.add_argument("-ps", "--producer-speed", type=int, default=1)
+    parser.add_argument("-cs", "--consumer-speed", type=int, default=1)
+    return parser.parse_args()
+
+# TODO: support multiple producers and consumers.
+if __name__ == "__main__":
+    try:
+        main(parse_args())
+    except KeyboardInterrupt:
+        pass
