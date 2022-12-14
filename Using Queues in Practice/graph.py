@@ -3,7 +3,7 @@
 # From this program, we'll need a module and a class package, known as typing.
 # Imported networkx to visualize our graph.
 from typing import NamedTuple; import networkx as nx
-from REFqueues import Queue
+from REFqueues import Queue, Stack # <-- replacing the queue with a stack, it will initially won't mark the source node as visited.
 
 # To recreate the shortest path between the source and destination, we can iteratively look up the dictionary built earlier when we traversed the graph with the breadth-first approach.
 # Using Python deque collection with a fast append operation on the left can be helpful. At each iteration, we add the current node to the path and move to the previous node. It repeats these steps until we reach the source node or theres' no previous node.
@@ -55,6 +55,11 @@ def breadth_first_traverse(graph, source):
                 visited.add(neighbor)
                 queue.enqueue(neighbor)
 
+def breadth_first_search(graph, source, predicate):
+    for node in breadth_first_traverse(graph, source):
+        if predicate(node):
+            return node
+
 # The existing path between the source and destination from this function returns a list of nodes built with another helper function instead of yielding the individual nodes like breadth_first_traverse().
 def retrace(previous, source, destination):
     path = deque()
@@ -90,11 +95,6 @@ def shortest_path(graph, source, destination, order_by = None):
                 previous[neighbor] = node
                 if neighbor == destination:
                     return retrace(previous, source, destination)
-
-def breadth_first_search(graph, source, predicate):
-    for node in breadth_first_traverse(graph, source):
-        if predicate(node):
-            return node
 
 # This function builds on top of the first one by looping over the yielded nodes, and stops once the current node meets the expected criteria. If none of the nodes make the predicate truthy, then the function implicitly returns None.
 def breadth_first_traverse(graph, source):
