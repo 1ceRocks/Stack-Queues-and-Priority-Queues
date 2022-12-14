@@ -5,3 +5,10 @@
 # Importing the necessary module and queue classes into the global namespace.
 import argparse
 from queue import LifoQueue, PriorityQueue, Queue
+
+# Dictionary maps queue names to their respective classes, which we call to create a new queue instance based on the value of a command-line argument.
+QUEUE_TYPES = {
+    "fifo": Queue,
+    "lifo": LifoQueue,
+    "heap": PriorityQueue,
+}
