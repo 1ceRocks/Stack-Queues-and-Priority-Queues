@@ -121,3 +121,19 @@ def depth_first_traverse(graph, source, order_by = None):
                 neighbors.sort(key = order_by)
             for neighbor in reversed(neighbors):
                 stack.enqueue(neighbor)
+
+# The depth-first traversal relies on the stack data structure, it can take advantage of the built-in call stack to save the current search path for later backtracking and rewrite the function recursively. The advantage of this approach is that the recursive call stack will not reverse the neighbors when iterating over them, and do not push already visited neighbors onto the stack.
+def recursive_depth_first_traverse(graph, source, order_by = None):
+    visited = set()
+
+    def visit(node):
+        yield node
+        visited.add(node)
+        neighbors = list(graph.neighbors(node))
+        if order_by:
+            neighbors.sort(key = order_by)
+        for neighbor in neighbors:
+            if neighbor not in visited:
+                yield from visit(neighbor)
+    
+    return visit(source)
