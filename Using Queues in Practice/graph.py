@@ -142,10 +142,10 @@ def recursive_depth_first_traverse(graph, source, order_by = None):
 def breadth_first_search(graph, source, predicate, order_by = None):
     return search(breadth_first_traverse, graph, source, predicate, order_by)
 
-def depth_first_search(graph, source, predicate, order_by=None):
+def depth_first_search(graph, source, predicate, order_by = None):
     return search(depth_first_traverse, graph, source, predicate, order_by)
 
-def search(traverse, graph, source, predicate, order_by=None):
-    for node in traverse(graph, source, order_by):
+def search(traverse, graph, source, predicate, order_by = None):
+    for node in traverse(graph, source):
         if predicate(node):
             return node
