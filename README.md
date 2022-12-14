@@ -8,14 +8,24 @@ Code Reiteration: _Fritz Cedrick V. Villariza_
 
 Needed Packages / MOdules from PIP Python (can be executed on the terminal output of any available compiler):
 - *PIP should be installed and upgraded to latest version.*
-- *Python 3 or higher is needed for test purposes.*
+- *Python 3 or higher is needed for test purposes.* <== Technically 3.9 or higher
 
 **Python Queues Folder** <br />
-collection = pip install collection <br />
-queues = pip install queues <br />
+collection 0.1.6 = pip install collection <br />
+queues 0.6.3 = pip install queues <br />
 
 **Using Queues in Practice Folder** <br />
-pygraphviz = C compiler toolchain (Full tutorial: https://pygraphviz.github.io/documentation/stable/install.html) <br />
-networkx = pip install networkx <br />
+pygraphviz 1.9 = C compiler toolchain (Full tutorial: https://pygraphviz.github.io/documentation/stable/install.html) <br />
+networkx 2.8.4 = pip install networkx <br />
+
+**Thread Safe Queues** <br />
+aiohttp 3.8.1 = pip install aiohttp <br />
+beautifulsoup4 4.11.1 = pip install beautifulsoup4 <br />
+kafka-python3 3.0.0 = pip install kafka-python3 <br />
+pika 1.2.1 = pip install pika <br />
+pydot 1.4.2 = pip install pydot <br />
+pygraphviz 1.9 = pip install pygraphviz <br />
+redis 4.3.3 = pip install redis <br />
+rich 12.4.4 = pip install rich <br />
 
 **Disclaimer**: Purpose = DSA - Activity
