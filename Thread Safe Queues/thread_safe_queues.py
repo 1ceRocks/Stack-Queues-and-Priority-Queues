@@ -12,3 +12,7 @@ QUEUE_TYPES = {
     "lifo": LifoQueue,
     "heap": PriorityQueue,
 }
+
+# The main() function is the entry point for the command-line interface. It takes a command-line argument and returns a queue instance. 
+def main(args):
+    buffer = QUEUE_TYPES[args.queue]()
