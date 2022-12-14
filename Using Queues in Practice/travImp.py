@@ -1,18 +1,12 @@
 # To test out the breadth-first search and traversal implementations in action.
 # Replacing the convenience function built into networkx
 
-# Importing networkx library to observe and estimate the shortest distance between cities and roads by identifying their node amount if weight isn't specified in the configuration.
-import networkx as nx
-
 from graph import (
     City,
     load_graph,
     breadth_first_traverse,
     breadth_first_search as bfs,
 )
-
-# From graph.py import file path
-from graph import shortest_path
 
 def is_twentieth_century(city):
     return city.year and 1901 <= city.year <= 2000
@@ -27,26 +21,6 @@ for city in breadth_first_traverse(graph, nodes["edinburgh"]):
     print(city.name)
 print("")
 
-city1 = nodes["aberdeen"]
-city2 = nodes["perth"]
-
-# Shortest Path Using Breadth-First Traversal Order
-for i, path in enumerate(nx.all_shortest_paths(graph, city1, city2), 1):
-    print(f"{i}.", " → ".join(city.name for city in path), "")
-print("")
-
 # The terminal output doesn't allow the neighbors to be sorted in a particular order.
 
 # Breadth-First Traversal Order helps us determine which path is shortest by keeping a track of the previous node and storing this information as a key-value pair in the dictionary.
-
-# This first path follows the natural order of neighbors from the DOT file.
-print(" → ".join(city.name for city in shortest_path(graph, city1, city2)), "\n")
-
-# To govern a descending order, we add the minus sign (-) in front of the .latitude attribute.
-def by_latitude(city):
-    return -city.latitude
-
-# This second path prefers neighbors with a higher latitude, which we specify through a custom sort strategy.
-print(" → ".join(
-    city.name
-    for city in shortest_path(graph, city1, city2, by_latitude)), "\n")

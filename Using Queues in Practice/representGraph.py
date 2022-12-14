@@ -1,5 +1,8 @@
 # Importing the module to display the stored data on the dictionary attribute extracted from the roadmap.dot file through graph.py syntax, classification, and formatting.
-from graph import City, load_graph
+from graph import City, load_graph, shortest_path, connected
+
+# Importing networkx library to observe and estimate the shortest distance between cities and roads by identifying their node amount if weight isn't specified in the configuration.
+import networkx as nx
 
 # Parameters in the load_graph are inherited from the graph.py file.
 nodes, graph = load_graph("Stack-Queues-and-Priority-Queues/Using Queues in Practice/roadmap.dot", City.from_dict)
@@ -30,3 +33,27 @@ def by_distance(weights):
 for neighbor, weights in sort_by(graph[nodes["london"]], by_distance):
     print(f"{weights['distance']:>3} miles, {neighbor.name}")
 print("")
+
+city1 = nodes["aberdeen"]
+city2 = nodes["perth"]
+
+# Shortest Path Using Breadth-First Traversal Order
+for i, path in enumerate(nx.all_shortest_paths(graph, city1, city2), 1):
+    print(f"{i}.", " → ".join(city.name for city in path), "")
+print("")
+
+# This first path follows the natural order of neighbors from the DOT file.
+print(" → ".join(city.name for city in shortest_path(graph, city1, city2)), "\n")
+
+# To govern a descending order, we add the minus sign (-) in front of the .latitude attribute.
+def by_latitude(city):
+    return -city.latitude
+
+# This second path prefers neighbors with a higher latitude, which we specify through a custom sort strategy.
+print(" → ".join(
+    city.name
+    for city in shortest_path(graph, city1, city2, by_latitude)), "\n")
+
+# Verifying the retrace() function by letting it know that there's no path between source and destination.
+print(connected(graph, nodes["belfast"], nodes["glasgow"]))
+print(connected(graph, nodes["belfast"], nodes["derry"]), "\n")
