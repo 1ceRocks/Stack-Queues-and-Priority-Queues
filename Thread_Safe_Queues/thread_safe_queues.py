@@ -9,6 +9,10 @@ from random import choice, randint
 from time import sleep
 from itertools import zip_longest
 
+# For PriorityQueue instances
+from dataclasses import dataclass, field
+from enum import IntEnum
+
 # Expanding the collapsible section of the presentation based on the Rich library.
 from rich.align import Align
 from rich.columns import Columns
@@ -184,3 +188,23 @@ if __name__ == "__main__":
         main(parse_args())
     except KeyboardInterrupt:
         pass
+
+# To use a synchronized priority queue or a heap, you’ll need to make a few adjustments in your code. First of all, you’re going to need a new kind of product that has an associated priority, so define two new data types:
+@dataclass(order=True)
+class Product:
+    priority: int
+    label: str = field(compare=False)
+
+    def __str__(self):
+        return self.label
+
+class Priority(IntEnum):
+    HIGH = 1
+    MEDIUM = 2
+    LOW = 3
+
+PRIORITIZED_PRODUCTS = (
+    Product(Priority.HIGH, ":1st_place_medal:"),
+    Product(Priority.MEDIUM, ":2nd_place_medal:"),
+    Product(Priority.LOW, ":3rd_place_medal:"),
+)
