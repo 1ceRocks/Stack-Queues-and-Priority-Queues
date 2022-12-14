@@ -2,7 +2,7 @@
 import networkx as nx
 from graph import City, load_graph, dijkstra_shortest_path
 
-nodes, graph = load_graph("Stack-Queues-and-Priority-Queues/Using Queues in Practice/roadmap.dot", City.from_dict)
+nodes, graph = load_graph("Stack-Queues-and-Priority-Queues/Road Map of the United Kingdom/roadmap.dot", City.from_dict)
 
 city1 = nodes["london"]
 city2 = nodes["edinburgh"]

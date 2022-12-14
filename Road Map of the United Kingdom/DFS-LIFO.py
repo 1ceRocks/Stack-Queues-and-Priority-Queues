@@ -28,7 +28,7 @@ else:
 def is_twentieth_century(city):
     return city.year and 1901 <= city.year <= 2000
 
-nodes, graph = load_graph("Stack-Queues-and-Priority-Queues/Using Queues in Practice/roadmap.dot", City.from_dict)
+nodes, graph = load_graph("Stack-Queues-and-Priority-Queues/Road Map of the United Kingdom/roadmap.dot", City.from_dict)
 city = dfs(graph, nodes["edinburgh"], is_twentieth_century)
 print(city.name, "\n")
 

@@ -6,6 +6,6 @@ import networkx as nx # With the help of pygraphviz (acting as third-party libra
 # print(nx.nx_agraph.read_dot("Stack-Queues-and-Priority-Queues/Using Queues in Practice/roadmap.dot"))
 
 #Testing out one string map from the roadmap file to a corresponding dictionary of keyvalue pairs.
-graphTest = nx.nx_agraph.read_dot("Stack-Queues-and-Priority-Queues/Using Queues in Practice/roadmap.dot")
+graphTest = nx.nx_agraph.read_dot("Stack-Queues-and-Priority-Queues/Road Map of the United Kingdom/roadmap.dot")
 print(f"\n{graphTest}")
 print(f"{graphTest.nodes['bristol']}\n")

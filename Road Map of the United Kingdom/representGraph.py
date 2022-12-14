@@ -5,7 +5,7 @@ from graph import City, load_graph, shortest_path, connected
 import networkx as nx
 
 # Parameters in the load_graph are inherited from the graph.py file.
-nodes, graph = load_graph("Stack-Queues-and-Priority-Queues/Using Queues in Practice/roadmap.dot", City.from_dict)
+nodes, graph = load_graph("Stack-Queues-and-Priority-Queues/Road Map of the United Kingdom/roadmap.dot", City.from_dict)
 print(f"\n{nodes['bristol']}")
 print(f"{graph}\n")
 
