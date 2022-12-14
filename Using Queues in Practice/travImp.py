@@ -19,3 +19,5 @@ print("\n", city.name, "\n")
 for city in breadth_first_traverse(graph, nodes["edinburgh"]):
     print(city.name)
 print("")
+
+# The terminal output doesn't allow the neighbors to be sorted in a particular order.
