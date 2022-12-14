@@ -33,3 +33,5 @@ for i, path in enumerate(nx.all_shortest_paths(graph, city1, city2), 1):
 print("")
 
 # The terminal output doesn't allow the neighbors to be sorted in a particular order.
+
+# Breadth-First Traversal Order helps us determine which path is shortest by keeping a track of the previous node and storing this information as a key-value pair in the dictionary.

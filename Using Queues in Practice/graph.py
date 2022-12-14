@@ -51,6 +51,24 @@ def breadth_first_traverse(graph, source):
                 visited.add(neighbor)
                 queue.enqueue(neighbor)
 
+# This def function will adapt and copy the exiting function of breadth_first_traverse() as this will call the node by reverse tracing (meaning from destination to the source by following its previous nodes).
+def shortest_path(graph, source, destination, order_by = None):
+    queue = Queue(source)
+    visited = {source}
+    previous = {}
+    while queue:
+        node = queue.dequeue()
+        neighbors = list(graph.neighbors(node))
+        if order_by:
+            neighbors.sort(key=order_by)
+        for neighbor in neighbors:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.enqueue(neighbor)
+                previous[neighbor] = node
+                if neighbor == destination:
+                    return retrace(previous, source, destination)
+
 def breadth_first_search(graph, source, predicate):
     for node in breadth_first_traverse(graph, source):
         if predicate(node):
