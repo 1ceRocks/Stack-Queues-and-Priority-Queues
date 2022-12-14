@@ -137,3 +137,15 @@ def recursive_depth_first_traverse(graph, source, order_by = None):
                 yield from visit(neighbor)
     
     return visit(source)
+
+# To be executed from call search() method with the corresponding traversal strategy. It will be tested out on the DFS-LIFO.py
+def breadth_first_search(graph, source, predicate, order_by = None):
+    return search(breadth_first_traverse, graph, source, predicate, order_by)
+
+def depth_first_search(graph, source, predicate, order_by=None):
+    return search(depth_first_traverse, graph, source, predicate, order_by)
+
+def search(traverse, graph, source, predicate, order_by=None):
+    for node in traverse(graph, source, order_by):
+        if predicate(node):
+            return node
