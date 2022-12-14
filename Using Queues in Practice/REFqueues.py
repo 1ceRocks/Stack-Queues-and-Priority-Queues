@@ -65,6 +65,7 @@ class Element:
     count: int
     value: Any
 
+# The square bracket syntax behaves mostly the same as a regular priority queue operation like before, but this time it allows us to peek or modify the priority of an element.
 class MutableMinHeap(IterableMixin):
     def __init__(self):
         super().__init__()
