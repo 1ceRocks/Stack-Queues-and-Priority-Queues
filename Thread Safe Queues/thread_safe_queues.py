@@ -7,6 +7,14 @@ import argparse, threading
 from queue import LifoQueue, PriorityQueue, Queue
 from random import randint
 from time import sleep
+from itertools import zip_longest
+
+# Expanding the collapsible section of the presentation based on the Rich library.
+from rich.align import Align
+from rich.columns import Columns
+from rich.console import Group
+from rich.live import Live
+from rich.panel import Panel
 
 # Dictionary maps queue names to their respective classes, which we call to create a new queue instance based on the value of a command-line argument.
 QUEUE_TYPES = {
@@ -87,3 +95,5 @@ class Worker(threading.Thread):
         for _ in range(100):
             sleep(delay / 100)
             self.progress += 1
+
+# The code below defines a view that renders the current state of your producers, consumers, and the queue ten times a second:
