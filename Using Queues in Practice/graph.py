@@ -69,6 +69,10 @@ def retrace(previous, source, destination):
     path.appendleft(current)
     return list(path)
 
+# After starting at the source node and traversing the entire subgraph of connected nodes, such as Northern Ireland, the dictionary of previous nodes won’t include the destination node. Therefore, retracing will stop immediately and return None, letting it know there’s no path between source and destination.
+def connected(graph, source, destination):
+    return shortest_path(graph, source, destination) is not None
+
 # This def function will adapt and copy the exiting function of breadth_first_traverse() as this will call the node by reverse tracing (meaning from destination to the source by following its previous nodes).
 def shortest_path(graph, source, destination, order_by = None):
     queue = Queue(source)
