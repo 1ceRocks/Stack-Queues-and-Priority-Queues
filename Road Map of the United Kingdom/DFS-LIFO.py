@@ -15,7 +15,7 @@ def is_twentieth_century(year):
     return year and 1901 <= year <= 2000
 
 # Facilitating backtracking by replacing the implementation of FIFO queue with a LIFO queue but it will not behave correctly when traversing data tree structures. Organizing graphs and cycles have distinctive qualities, so there's a subtle requirement of additional change in the code. Hence, an unexpected implementation will be created, a stack-based graph traversal, which works on the other side of the page.
-nodes, graph = load_graph("Stack-Queues-and-Priority-Queues/Using Queues in Practice/roadmap.dot", City.from_dict)
+nodes, graph = load_graph("Stack-Queues-and-Priority-Queues/Road Map of the United Kingdom/roadmap.dot", City.from_dict)
 print("")
 for node in nx.dfs_tree(graph, nodes["edinburgh"]):
     print("📍", node.name)
