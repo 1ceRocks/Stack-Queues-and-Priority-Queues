@@ -2,6 +2,7 @@
 # In this file we will import the Queues module and create the bare-bones queue object needed for enqueue and dequeue operations.
 
 # Importing the Queues module from Python
+# Complete syntax for the mutable min-heap
 from collections import deque
 from heapq import heappush, heappop, heapify
 from itertools import count
@@ -9,8 +10,7 @@ from dataclasses import dataclass
 from itertools import count
 from typing import Any
 
-# Importing a local module for testing out our FIFO queue.
-# from queues import Queue
+# Internally, this specialized priority queue stores data class elements instead of tuples because the elements must be mutable. Notice the additional order flag, which makes the elements comparable, just like tuples:
 
 # Refactoring the Code Using a Mixin Class
 class IterableMixin:                    
