@@ -30,6 +30,25 @@ def parse_args():
 # TODO: support multiple producers and consumers.
 if __name__ == "__main__":
     try:
-        main(parse_args()))
+        main(parse_args())
     except KeyboardInterrupt:
         pass
+
+# Textual codes that Rich will eventually replace with the corresponding emoji glyphs. For example, :balloon: will render as 🎈.
+PRODUCTS = (
+    ":balloon:",
+    ":cookie:",
+    ":crystal_ball:",
+    ":diving_mask:",
+    ":flashlight:",
+    ":gem:",
+    ":gift:",
+    ":kite:",
+    ":party_popper:",
+    ":postal_horn:",
+    ":ribbon:",
+    ":rocket:",
+    ":teddy_bear:",
+    ":thread:",
+    ":yo-yo:",
+)
