@@ -6,6 +6,7 @@ from typing import NamedTuple; import networkx as nx
 from REFqueues import Queue
 
 # To recreate the shortest path between the source and destination, we can iteratively look up the dictionary built earlier when we traversed the graph with the breadth-first approach.
+# Using Python deque collection with a fast append operation on the left can be helpful. At each iteration, we add the current node to the path and move to the previous node. It repeats these steps until we reach the source node or theres' no previous node.
 from collections import deque
 
 # Configured data class for later cases such as the requirement of networkx.
@@ -57,7 +58,7 @@ def breadth_first_traverse(graph, source):
 # The existing path between the source and destination from this function returns a list of nodes built with another helper function instead of yielding the individual nodes like breadth_first_traverse().
 def retrace(previous, source, destination):
     path = deque()
-    
+
     current = destination
     while current != source:
         path.appendleft(current)
