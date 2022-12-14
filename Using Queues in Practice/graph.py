@@ -9,6 +9,10 @@ from REFqueues import Queue, Stack # <-- replacing the queue with a stack, it wi
 # Using Python deque collection with a fast append operation on the left can be helpful. At each iteration, we add the current node to the path and move to the previous node. It repeats these steps until we reach the source node or theres' no previous node.
 from collections import deque
 
+# Implementing the first part of Dijkstra's algorithm using the special class MutableMinHeap to enqueue the unvisited nodes.
+from math import inf as infinity
+from REFqueues import MutableMinHeap, Queue, Stack
+
 # Configured data class for later cases such as the requirement of networkx.
 # This is also comparable that is hashable out of the box which is essential to visualize the traversal order of the graph.
 class City(NamedTuple): # This class formats the syntax for getting the values from the dictionary.
@@ -149,3 +153,26 @@ def search(traverse, graph, source, predicate, order_by = None):
     for node in traverse(graph, source):
         if predicate(node):
             return node
+
+# Dijkstra’s Algorithm Using a Priority Queue
+# Initially, the distance to all destination cities is unknown, so we assign an infinite cost to each unvisited city except for the source, which has a distance equal to zero. Later, when we find a cheaper path to a neighbor, we update its total distance from the source in the priority queue, which rebalances itself so that an unvisited node with the shortest distance will pop up first next time.
+def dijkstra_shortest_path(graph, source, destination, weight_factory):
+    previous = {}
+    visited = set()
+
+    unvisited = MutableMinHeap()
+    for node in graph.nodes:
+        unvisited[node] = infinity
+    unvisited[source] = 0
+
+    while unvisited:
+        visited.add(node := unvisited.dequeue())
+        for neighbor, weights in graph[node].items():
+            if neighbor not in visited:
+                weight = weight_factory(weights)
+                new_distance = unvisited[node] + weight
+                if new_distance < unvisited[neighbor]:
+                    unvisited[neighbor] = new_distance
+                    previous[neighbor] = node
+
+    return retrace(previous, source, destination)
