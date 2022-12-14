@@ -1,0 +1,2 @@
+# Depth-First Search Using LIFO Queue
+# In this file we will use an algorithm called Depth First Search traversal method that follows a path from the source node by plunging into the graph as deeply as possible before backtracking to the last edge crossing and trying another branch.
