@@ -5,6 +5,9 @@
 from typing import NamedTuple; import networkx as nx
 from REFqueues import Queue
 
+# To recreate the shortest path between the source and destination, we can iteratively look up the dictionary built earlier when we traversed the graph with the breadth-first approach.
+from collections import deque
+
 # Configured data class for later cases such as the requirement of networkx.
 # This is also comparable that is hashable out of the box which is essential to visualize the traversal order of the graph.
 class City(NamedTuple): # This class formats the syntax for getting the values from the dictionary.
@@ -50,6 +53,20 @@ def breadth_first_traverse(graph, source):
             if neighbor not in visited:
                 visited.add(neighbor)
                 queue.enqueue(neighbor)
+
+# The existing path between the source and destination from this function returns a list of nodes built with another helper function instead of yielding the individual nodes like breadth_first_traverse().
+def retrace(previous, source, destination):
+    path = deque()
+    
+    current = destination
+    while current != source:
+        path.appendleft(current)
+        current = previous.get(current)
+        if current is None:
+            return None;
+    
+    path.appendleft(current)
+    return list(path)
 
 # This def function will adapt and copy the exiting function of breadth_first_traverse() as this will call the node by reverse tracing (meaning from destination to the source by following its previous nodes).
 def shortest_path(graph, source, destination, order_by = None):
