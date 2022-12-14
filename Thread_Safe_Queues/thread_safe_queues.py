@@ -155,6 +155,7 @@ class Consumer(Worker):
 # The main() function is the entry point for the command-line interface. It takes a command-line argument and returns a queue instance. 
 def main(args):
     buffer = QUEUE_TYPES[args.queue]()
+    products = PRIORITIZED_PRODUCTS if args.queue == "help" else PRODUCTS
     producers = [
         Producer(args.producer_speed, buffer, PRODUCTS)
         for _ in range(args.producers)
@@ -190,6 +191,7 @@ if __name__ == "__main__":
         pass
 
 # To use a synchronized priority queue or a heap, you’ll need to make a few adjustments in your code. First of all, you’re going to need a new kind of product that has an associated priority, so define two new data types:
+# To represent products, we use a data class with a customized string representation and ordering enabled, but we're careful not to compare the products by their label. In this case, we expect the label to be a string, but generally, it could be any object that might not be comparable at all. We also define an enum class with known priority values and three products with descending priorities from highest to lowest.
 @dataclass(order=True)
 class Product:
     priority: int
