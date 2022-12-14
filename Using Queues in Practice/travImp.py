@@ -11,6 +11,9 @@ from graph import (
     breadth_first_search as bfs,
 )
 
+# From graph.py import file path
+from graph import shortest_path
+
 def is_twentieth_century(city):
     return city.year and 1901 <= city.year <= 2000
 
@@ -35,3 +38,15 @@ print("")
 # The terminal output doesn't allow the neighbors to be sorted in a particular order.
 
 # Breadth-First Traversal Order helps us determine which path is shortest by keeping a track of the previous node and storing this information as a key-value pair in the dictionary.
+
+# This first path follows the natural order of neighbors from the DOT file.
+print(" → ".join(city.name for city in shortest_path(graph, city1, city2)), "\n")
+
+# To govern a descending order, we add the minus sign (-) in front of the .latitude attribute.
+def by_latitude(city):
+    return -city.latitude
+
+# This second path prefers neighbors with a higher latitude, which we specify through a custom sort strategy.
+print(" → ".join(
+    city.name
+    for city in shortest_path(graph, city1, city2, by_latitude)), "\n")
