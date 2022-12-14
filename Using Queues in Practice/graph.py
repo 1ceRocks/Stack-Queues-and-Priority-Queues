@@ -106,3 +106,18 @@ def breadth_first_traverse(graph, source):
             if neighbor not in visited:
                 visited.add(neighbor)
                 queue.enqueue(neighbor)
+
+# This def() function builds on top of the first one by looping over the yielded nodes, and stops once the current node meets the expected criteria. If none of the nodes make the predicate truthy, then the function implicitly returns None.
+# When iterating the neighbors, it reverse their order to account for the LIFO queue's reversal. It won't mark the neighbors as visited immediately after pushing them onto the stack.
+def depth_first_traverse(graph, source, order_by = None):
+    stack = Stack(source)
+    visited = set()
+    while stack:
+        if (node := stack.dequeue()) not in visited:
+            yield node
+            visited.add(node)
+            neighbors = list(graph.neighbors(node))
+            if order_by:
+                neighbors.sort(key = order_by)
+            for neighbor in reversed(neighbors):
+                stack.enqueue(neighbor)
