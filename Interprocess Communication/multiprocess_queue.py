@@ -38,4 +38,14 @@ def main():
 if __name__ == "__main__":
     main()
 
-# TODO: By breaking up the whole set of letter combinations into a few more manageable disjoint subsets, you wish to reduce the search space in each worker. The sets cannot overlap in order to prevent employees from wasting time on tasks that have previously been completed by another worker. You can supply a number of pieces equal to the number of CPU cores even though you don't know the size of each individual chunk.
+# * It produces tuples that may easily be used as input for the built-in range() method since they contain the start index of the current chunk and its last index raised by one. The successive chunk lengths are rounded, and those with different lengths end up being beautifully interleaved:
+def chunk_indices(length, num_chunks):
+    start = 0
+    while num_chunks > 0:
+        num_chunks = min(num_chunks, length)
+        chunk_size = round(length / num_chunks)
+        yield start, (start := start + chunk_size)
+        length -= chunk_size
+        num_chunks -= 1
+
+# TODO: Each worker will create its own chunk of letter combinations depending on the range of indices supplied in a dequeued task object in order to reduce the cost of data serialization across our processes. For a specific index, you need to locate a letter combination or an n-tuple or m-set. We may create a new class that contains the combination's formula to make our life simpler:
