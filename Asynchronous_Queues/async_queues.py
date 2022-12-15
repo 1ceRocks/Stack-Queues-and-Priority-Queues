@@ -36,7 +36,7 @@ async def main(args):
         links = Counter()
         # visible representation form of an asynchronous FIFO queue.
         # TODO: (Method Revision) Utilizing the Priority Queue instead of the other two types, FIFO and LIFO.
-        queue = asyncio.Queue()
+        queue = asyncio.PriorityQueue()
         # make many worker coroutines that are encased in asynchronous tasks and start operating as soon as feasible in the background on the event loop.
         tasks = [
             asyncio.create_task(
