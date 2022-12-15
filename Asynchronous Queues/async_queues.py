@@ -12,7 +12,7 @@
 import aiohttp, argparse, asyncio
 from collections import Counter
 
-# TODO: pass the main() coroutine to asyncio.run() so that it can perform on the default event loop.
+# Defines a counter on the visited links on the HTML hyperlinks being parsed. It also passes the coroutine execution to asyncio.run() for it to have a default event loop session.
 async def main(args):
     session = aiohttp.ClientSession()
     try:
@@ -20,3 +20,19 @@ async def main(args):
         display(links)
     finally:
         await session.close()
+
+# The 2 define block codes [parse_args() and display(links)]Coroutine receives few command-line interface and returns them with parsed arguments.
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("url")
+    parser.add_argument("-d", "--max-depth", type=int, default=2)
+    parser.add_argument("-w", "--num-workers", type=int, default=3)
+    return parser.parse_args()
+
+def display(links):
+    for url, count in links.most_common():
+        print(f"{count:>3} {url}")
+
+# This counter is used internally by the asyncio module to track the number of concurrent requests that are queued to the same page. It also acts as the global workspace for running through parallel processes.
+if __name__ == "__main__":
+    asyncio.run(main(parse_args()))
