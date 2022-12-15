@@ -22,9 +22,12 @@ from typing import NamedTuple
 class Job(NamedTuple):
     url: str
     depth: int = 1
-    # TODO: (asyncio.PriorityQueue) It must first explain how to compare the jobs in the priority queue to determine their priorities before it can use the jobs in the queue. Adding the .__lt__() special method to its Job class enables to implement a less than (<) operator and delegates when comparing two job instances:
-    # ? -- area for modification --
-    
+
+    # ! If we compare a job to a completely foreign data type, we can't simply conclude which of them is smaller, making it harder to compare. Hence, we need to implicit a return None.
+    def __lt__(self, other):
+        if isinstance(other, Job):
+            return len(self.url) < len(other.url)
+
 # * Defines a counter on the visited links on the HTML hyperlinks being parsed. It also passes the coroutine execution to asyncio.run() for it to have a default event loop session. The coroutine then would pass back and display the list of links sorted by the number of visits in descending order.
 async def main(args):
     session = aiohttp.ClientSession()
