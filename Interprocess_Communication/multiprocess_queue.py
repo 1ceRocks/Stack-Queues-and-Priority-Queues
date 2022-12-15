@@ -14,10 +14,11 @@
 
 
 # * Importing the necessary module string for reversing an MD5 Hash on a Single Thread
-import time, multiprocessing
+import time, multiprocessing, argparse
 from hashlib import md5
 from itertools import product
 from string import ascii_lowercase
+from dataclasses import dataclass
 
 # * A function that attempts to reverse an MD5 hash value given as the first parameter is defined inside the reverse_md5() parametric function. The function by default only takes into account text made up of six lowercase ASCII characters. By supplying two more optional options, you may alter the alphabet and the maximum length of the text that can be guessed.
 def reverse_md5(hash_value, alphabet=ascii_lowercase, max_length=6):
@@ -29,14 +30,17 @@ def reverse_md5(hash_value, alphabet=ascii_lowercase, max_length=6):
                 return text_bytes.decode("utf-8")
 
 # * Using a Python timer to calculate the execution time of a sample MD5 hash value. Finding a combination that hashes to the given input can take a few seconds on an experienced desktop computer: 
-def main():
-    t1 = time.perf_counter()
-    # Due to its MD5 digest matching your hard-coded hash value on line 18, the word "queue" is the solution.
-    text = reverse_md5("a9d1cbf71942327e98b40cf5ef38a960")
-    print(f"{text} (found in {time.perf_counter() - t1:.1f}s)")
+# This will comment line 34-41New code block will be laid out.
+# def main():
+#     t1 = time.perf_counter()
+#     # Due to its MD5 digest matching your hard-coded hash value on line 18, the word "queue" is the solution.
+#     text = reverse_md5("a9d1cbf71942327e98b40cf5ef38a960")
+#     print(f"{text} (found in {time.perf_counter() - t1:.1f}s)")
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
+
+
 
 # * It produces tuples that may easily be used as input for the built-in range() method since they contain the start index of the current chunk and its last index raised by one.
 def chunk_indices(length, num_chunks):
@@ -81,7 +85,7 @@ class Combinations:
 
 # Each worker process will have a reference to both the output queue for the potential solution and the input queue with tasks to consume. Full-duplex communication, sometimes referred to as simultaneous two-way communication, is made possible by these references between the employees and the primary process. You extend the Process class, which has the well-known.run() function, exactly like a thread, to construct a worker process:
 
-# .__call__() is a special method that allows to call objects from our class from within a task. Because of this, when employees obtain certain responsibilities, they can refer to them as normal tasks.
+# The program will then be terminated early if the main process notices that one of the workers has added a reversed MD5 text to the output queue on a periodic basis. Since the employees are daemons, the primary procedure won't be slowed down. Also note that the input hash value is reversely stored by the workers.
 class Worker(multiprocessing.Process):
     def __init__(self, queue_in, queue_out, hash_value):
         super().__init__(daemon=True)
@@ -95,5 +99,19 @@ class Worker(multiprocessing.Process):
             if plaintext := job(self.hash_value):
                 self.queue_out.put(plaintext)
                 break
+
+# .__call__() is a special method that allows to call objects from our class from within a task. Because of this, when employees obtain certain responsibilities, they can refer to them as normal tasks.
+@dataclass(frozen=True)
+class Job:
+    combinations: Combinations
+    start_index: int
+    stop_index: int
+
+    def __call__(self, hash_value):
+        for index in range(self.start_index, self.stop_index):
+            text_bytes = self.combinations[index].encode("utf-8")
+            hashed = md5(text_bytes).hexdigest()
+            if hashed == hash_value:
+                return text_bytes.decode("utf-8")
 
 # TODO: Finally, before beginning our worker processes, build both queues and add jobs to the input queue:
