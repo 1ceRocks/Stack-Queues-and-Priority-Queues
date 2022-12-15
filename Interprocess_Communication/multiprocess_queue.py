@@ -68,6 +68,7 @@ class Combinations:
         )
 
 # * Class in the MD5-reversing method and get rid of the "itertools.product" import declaration.
+# ! Unfortunately, using pure Python to do some computations and replacing a built-in function developed in C makes the code an order of magnitude slower:
 def reverse_md5(hash_value, alphabet=ascii_lowercase, max_length=6):
     for length in range(1, max_length + 1):
         for combination in Combinations(alphabet, length):
@@ -75,3 +76,7 @@ def reverse_md5(hash_value, alphabet=ascii_lowercase, max_length=6):
             hashed = md5(text_bytes).hexdigest()
             if hashed == hash_value:
                 return text_bytes.decode("utf-8")
+
+# ? You could improve a few things to gain a few of seconds. To avoid using the if statement or throwing an exception, you may implement. iter__() in your Combinations class, for instance. The length of the alphabet might alternatively be kept as an instance property. These improvements aren't crucial for the sake of the example, though.
+
+# TODO: The worker process, job data type, and two different queues will then be created so that the main process and its offspring may communicate with one another.
