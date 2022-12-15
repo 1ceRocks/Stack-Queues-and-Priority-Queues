@@ -2,6 +2,8 @@
 
 # In a synchronous environment, a program execution follows a set of operations sequentially. The execution flow will start processing a step and wait for it to return a result before proceeding to the next one. With asynchronous programming, we can use the lag time required by the operation to process and return a result to continue processing other tasks. This slows down the program as it is forced to stop and wait for something to finish. Many processors are available in the system, so it is a waste of resources to do other tasks rather than the ideal sit.
 
+# ! Run the web crawler away from a live website that is hosted online. It might get you into trouble and result in an unwelcome increase in network traffic.
+
 # * Necessary libraries for parallel execution are defined in the following modules that can be used.
 # ? aiohttp - to fetch data asynchronously
 # ? beautifulsoup4 - to parse HTML Hyperlinks
@@ -28,7 +30,33 @@ async def main(args):
     # ! print() function can be used to display the output because the program utilizes the single-thread CPU queue.
     try:
         links = Counter()
-        # ? -- area for modification --
+        # visible representation form of an asynchronous FIFO queue.
+        queue = asyncio.Queue()
+        # make many worker coroutines that are encased in asynchronous tasks and start operating as soon as feasible in the background on the event loop.
+        tasks = [
+            asyncio.create_task(
+                worker(
+                    f"Worker-{i + 1}",
+                    session,
+                    queue,
+                    links,
+                    args.max_depth,
+                )
+            )
+            for i in range(args.num_workers)
+        ]
+
+        # starts the web crawling by adding the first job to the queue.
+        await queue.put(Job(args.url))
+        # causes the main coroutine to wait until all tasks have been completed and the queue has been emptied.
+        await queue.join()
+
+        # when the background tasks are no longer required, it will then end the process.
+        for task in tasks:
+            task.cancel()
+
+        await asyncio.gather(*tasks, return_exceptions=True)
+
         display(links)
     finally:
         await session.close()
