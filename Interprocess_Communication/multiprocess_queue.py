@@ -58,6 +58,7 @@ def main(args):
         for _ in range(args.num_workers)
     ]
 
+    # * The script is now finished and capable of both identifying a matched text and dealing with circumstances in which the MD5 hash value cannot be reversed. We'll run a few benchmarks in the part after this one to see whether the work put into this exercise was worthwhile.
     for worker in workers:
         worker.start()
 
@@ -65,6 +66,8 @@ def main(args):
         combinations = Combinations(ascii_lowercase, text_length)
         for indices in chunk_indices(len(combinations), len(workers)):
             queue_in.put(Job(combinations, *indices))
+    
+    queue_in.put(POISON_PILL)
 
     while any(worker.is_alive() for worker in workers):
         try:
