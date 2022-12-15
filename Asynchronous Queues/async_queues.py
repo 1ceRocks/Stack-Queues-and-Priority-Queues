@@ -9,5 +9,14 @@
 # Layout for the web crawler.
 
 # The asyncio module provides tons of asynchronous counterparts to queues from the threading module that would be useful for coroutine functions on a single thread.
-import argparse, asyncio
+import aiohttp, argparse, asyncio
 from collections import Counter
+
+# TODO: pass the main() coroutine to asyncio.run() so that it can perform on the default event loop.
+async def main(args):
+    session = aiohttp.ClientSession()
+    try:
+        links = Counter()
+        display(links)
+    finally:
+        await session.close()
