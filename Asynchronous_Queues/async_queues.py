@@ -31,11 +31,11 @@ class Job(NamedTuple):
 # * Defines a counter on the visited links on the HTML hyperlinks being parsed. It also passes the coroutine execution to asyncio.run() for it to have a default event loop session. The coroutine then would pass back and display the list of links sorted by the number of visits in descending order.
 async def main(args):
     session = aiohttp.ClientSession()
-    # TODO: (PLACEMENT of Modification) Create an instance of the asynchronous queue and pass it to the artificial programmed workers. main() coroutine will supplement lines of codes that creates queues and asynchronous tasks to each worker with unique identifier tags that would differentiate inside the log messages. A necessary session, aiohttp library is required for queue instance, the counter for visits in a URL link, and its hits for maximum depth allowed.
     # ! print() function can be used to display the output because the program utilizes the single-thread CPU queue.
     try:
         links = Counter()
         # visible representation form of an asynchronous FIFO queue.
+        # TODO: (Method Revision) Utilizing the Priority Queue instead of the other two types, FIFO and LIFO.
         queue = asyncio.Queue()
         # make many worker coroutines that are encased in asynchronous tasks and start operating as soon as feasible in the background on the event loop.
         tasks = [
