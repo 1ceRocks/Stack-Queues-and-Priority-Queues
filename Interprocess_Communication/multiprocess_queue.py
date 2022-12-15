@@ -23,26 +23,57 @@ from dataclasses import dataclass
 # * Killing a Worker With the Posion Pill
 POISON_PILL = None
 
-# * A function that attempts to reverse an MD5 hash value given as the first parameter is defined inside the reverse_md5() parametric function. The function by default only takes into account text made up of six lowercase ASCII characters. By supplying two more optional options, you may alter the alphabet and the maximum length of the text that can be guessed.
-def reverse_md5(hash_value, alphabet=ascii_lowercase, max_length=6):
-    for length in range(1, max_length + 1):
-        for combination in product(alphabet, repeat=length):
-            text_bytes = "".join(combination).encode("utf-8")
+# * For a specific index, we need to locate a letter combination or an n-tuple or m-set. You may create a new class that contains the combination's formula to make your life simpler:
+class Combinations:
+    def __init__(self, alphabet, length):
+        self.alphabet = alphabet
+        self.length = length
+
+    def __len__(self):
+        return len(self.alphabet) ** self.length
+
+    def __getitem__(self, index):
+        if index >= len(self):
+            raise IndexError
+        return "".join(
+            self.alphabet[
+                (index // len(self.alphabet) ** i) % len(self.alphabet)
+            ]
+            for i in reversed(range(self.length))
+        )
+
+# .__call__() is a special method that allows to call objects from our class from within a task. Because of this, when employees obtain certain responsibilities, they can refer to them as normal tasks.
+@dataclass(frozen=True)
+class Job:
+    combinations: Combinations
+    start_index: int
+    stop_index: int
+
+    def __call__(self, hash_value):
+        for index in range(self.start_index, self.stop_index):
+            text_bytes = self.combinations[index].encode("utf-8")
             hashed = md5(text_bytes).hexdigest()
             if hashed == hash_value:
                 return text_bytes.decode("utf-8")
 
-# * Using a Python timer to calculate the execution time of a sample MD5 hash value. Finding a combination that hashes to the given input can take a few seconds on an experienced desktop computer:
-#  
-# This will comment line 34-41New code block will be laid out.
-# def main():
-#     t1 = time.perf_counter()
-#     # Due to its MD5 digest matching your hard-coded hash value on line 18, the word "queue" is the solution.
-#     text = reverse_md5("a9d1cbf71942327e98b40cf5ef38a960")
-#     print(f"{text} (found in {time.perf_counter() - t1:.1f}s)")
+# The program will then be terminated early if the main process notices that one of the workers has added a reversed MD5 text to the output queue on a periodic basis. Since the employees are daemons, the primary procedure won't be slowed down. Also note that the input hash value is reversely stored by the workers.
+class Worker(multiprocessing.Process):
+    def __init__(self, queue_in, queue_out, hash_value):
+        super().__init__(daemon=True)
+        self.queue_in = queue_in
+        self.queue_out = queue_out
+        self.hash_value = hash_value
 
-# if __name__ == "__main__":
-#     main()
+    def run(self):
+        while True:
+            job = self.queue_in.get()
+            # ? Each of our worker processes would have a separate instance of that object with its own unique identity if you utilized a custom object() instance declared as a global variable. When a sentinel object is enqueued by one worker, it will be deserialized into a whole new instance with a distinct identity from its global variable in another worker. As a result, you couldn't tell if there was a deadly pill in the line.
+            if job is POISON_PILL:
+                self.queue_in.put(POISON_PILL)
+                break
+            if plaintext := job(self.hash_value):
+                self.queue_out.put(plaintext)
+                break
 
 # * At this stage, your employees interact with the main process in a two-way manner via the input and output queues. However, because the main process terminates without waiting for its daemon offspring to complete performing their duties, the application quits abruptly immediately after beginning.
 
@@ -103,24 +134,26 @@ def chunk_indices(length, num_chunks):
         length -= chunk_size
         num_chunks -= 1
 
-# * For a specific index, we need to locate a letter combination or an n-tuple or m-set. You may create a new class that contains the combination's formula to make your life simpler:
-class Combinations:
-    def __init__(self, alphabet, length):
-        self.alphabet = alphabet
-        self.length = length
+# * A function that attempts to reverse an MD5 hash value given as the first parameter is defined inside the reverse_md5() parametric function. The function by default only takes into account text made up of six lowercase ASCII characters. By supplying two more optional options, you may alter the alphabet and the maximum length of the text that can be guessed.
+# def reverse_md5(hash_value, alphabet=ascii_lowercase, max_length=6):
+#     for length in range(1, max_length + 1):
+#         for combination in product(alphabet, repeat=length):
+#             text_bytes = "".join(combination).encode("utf-8")
+#             hashed = md5(text_bytes).hexdigest()
+#             if hashed == hash_value:
+#                 return text_bytes.decode("utf-8")
 
-    def __len__(self):
-        return len(self.alphabet) ** self.length
+# * Using a Python timer to calculate the execution time of a sample MD5 hash value. Finding a combination that hashes to the given input can take a few seconds on an experienced desktop computer:
+#  
+# This will comment line 34-41New code block will be laid out.
+# def main():
+#     t1 = time.perf_counter()
+#     # Due to its MD5 digest matching your hard-coded hash value on line 18, the word "queue" is the solution.
+#     text = reverse_md5("a9d1cbf71942327e98b40cf5ef38a960")
+#     print(f"{text} (found in {time.perf_counter() - t1:.1f}s)")
 
-    def __getitem__(self, index):
-        if index >= len(self):
-            raise IndexError
-        return "".join(
-            self.alphabet[
-                (index // len(self.alphabet) ** i) % len(self.alphabet)
-            ]
-            for i in reversed(range(self.length))
-        )
+# if __name__ == "__main__":
+#     main()
 
 # * Class in the MD5-reversing method and get rid of the "itertools.product" import declaration.
 # ! Unfortunately, using pure Python to do some computations and replacing a built-in function developed in C makes the code an order of magnitude slower:
@@ -135,39 +168,6 @@ class Combinations:
 
 
 # Each worker process will have a reference to both the output queue for the potential solution and the input queue with tasks to consume. Full-duplex communication, sometimes referred to as simultaneous two-way communication, is made possible by these references between the employees and the primary process. You extend the Process class, which has the well-known.run() function, exactly like a thread, to construct a worker process:
-
-# The program will then be terminated early if the main process notices that one of the workers has added a reversed MD5 text to the output queue on a periodic basis. Since the employees are daemons, the primary procedure won't be slowed down. Also note that the input hash value is reversely stored by the workers.
-class Worker(multiprocessing.Process):
-    def __init__(self, queue_in, queue_out, hash_value):
-        super().__init__(daemon=True)
-        self.queue_in = queue_in
-        self.queue_out = queue_out
-        self.hash_value = hash_value
-
-    def run(self):
-        while True:
-            job = self.queue_in.get()
-            # ? Each of our worker processes would have a separate instance of that object with its own unique identity if you utilized a custom object() instance declared as a global variable. When a sentinel object is enqueued by one worker, it will be deserialized into a whole new instance with a distinct identity from its global variable in another worker. As a result, you couldn't tell if there was a deadly pill in the line.
-            if job is POISON_PILL:
-                self.queue_in.put(POISON_PILL)
-                break
-            if plaintext := job(self.hash_value):
-                self.queue_out.put(plaintext)
-                break
-
-# .__call__() is a special method that allows to call objects from our class from within a task. Because of this, when employees obtain certain responsibilities, they can refer to them as normal tasks.
-@dataclass(frozen=True)
-class Job:
-    combinations: Combinations
-    start_index: int
-    stop_index: int
-
-    def __call__(self, hash_value):
-        for index in range(self.start_index, self.stop_index):
-            text_bytes = self.combinations[index].encode("utf-8")
-            hashed = md5(text_bytes).hexdigest()
-            if hashed == hash_value:
-                return text_bytes.decode("utf-8")
 
 if __name__ == "__main__":
     main(parse_args())
