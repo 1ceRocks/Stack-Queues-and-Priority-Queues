@@ -38,7 +38,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-# * It produces tuples that may easily be used as input for the built-in range() method since they contain the start index of the current chunk and its last index raised by one. The successive chunk lengths are rounded, and those with different lengths end up being beautifully interleaved:
+# * It produces tuples that may easily be used as input for the built-in range() method since they contain the start index of the current chunk and its last index raised by one.
 def chunk_indices(length, num_chunks):
     start = 0
     while num_chunks > 0:
@@ -48,7 +48,7 @@ def chunk_indices(length, num_chunks):
         length -= chunk_size
         num_chunks -= 1
 
-# * The collection of alphabet letter combinations with a specific length is represented by this custom data type. You may iterate through instances of the Combinations class using a loop thanks to the two special methods and raise the IndexError exception when all combinations have been used.
+# * For a specific index, we need to locate a letter combination or an n-tuple or m-set. You may create a new class that contains the combination's formula to make your life simpler:
 class Combinations:
     def __init__(self, alphabet, length):
         self.alphabet = alphabet
