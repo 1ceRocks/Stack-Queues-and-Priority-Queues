@@ -20,7 +20,7 @@ from itertools import product
 from string import ascii_lowercase
 from dataclasses import dataclass
 
-# * Killing a Worker With the Posion Pill
+# * Killing a Worker With the Poison Pill
 POISON_PILL = None
 
 # * For a specific index, we need to locate a letter combination or an n-tuple or m-set. You may create a new class that contains the combination's formula to make your life simpler:
