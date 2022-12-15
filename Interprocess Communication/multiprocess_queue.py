@@ -13,3 +13,9 @@
 # ! pickle module is a handy tool for data serialization in Python, but usually doesn't handle every data type and is relatively slow and insecure.
 
 # TODO: Before parallelizing the computation, let's focus on implementing a single-threaded version of the algorithm and measuring the execution time against some test input. Create a new Python module named multiprocess_queue and place the following code in it:
+
+# * Importing the necessary module string for reversing an MD5 Hash on a Single Thread
+import time
+from hashlib import md5
+from itertools import product
+from string import ascii_lowercase
