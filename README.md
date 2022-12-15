@@ -24,7 +24,6 @@ beautifulsoup4 4.11.1 = pip install beautifulsoup4 <br />
 kafka-python3 3.0.0 = pip install kafka-python3 <br />
 pika 1.2.1 = pip install pika <br />
 pydot 1.4.2 = pip install pydot <br />
-pygraphviz 1.9 = pip install pygraphviz <br />
 redis 4.3.3 = pip install redis <br />
 rich 12.4.4 = pip install rich <br />
 
