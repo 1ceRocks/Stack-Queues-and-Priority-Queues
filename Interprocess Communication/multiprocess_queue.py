@@ -7,3 +7,9 @@
 # ? multiprocessing.Queue 
 # ? multiprocessing.SimpleQueue 
 # ? multiprocessing.JoinableQueue
+
+# Processes and threads are different types of operating system processes, and often don't share memory regions unlike threads. Data must be marshaled and un-marshaled at both ends every time its pass a message from one process toa another.
+
+# ! pickle module is a handy tool for data serialization in Python, but usually doesn't handle every data type and is relatively slow and insecure.
+
+# TODO: Before parallelizing the computation, let's focus on implementing a single-threaded version of the algorithm and measuring the execution time against some test input. Create a new Python module named multiprocess_queue and place the following code in it:
