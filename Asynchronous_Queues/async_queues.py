@@ -11,6 +11,8 @@
 # The asyncio module provides tons of asynchronous counterparts to queues from the threading module that would be useful for coroutine functions on a single thread.
 import aiohttp, argparse, asyncio
 from collections import Counter
+from urllib.parse import urljoin
+from bs4 import BeautifulSoup
 
 # Defines a counter on the visited links on the HTML hyperlinks being parsed. It also passes the coroutine execution to asyncio.run() for it to have a default event loop session. The coroutine then would pass back and display the list of links sorted by the number of visits in descending order.
 async def main(args):
@@ -37,4 +39,10 @@ def display(links):
 if __name__ == "__main__":
     asyncio.run(main(parse_args()))
 
-# ! There are a few missing pieces on why the terminal output is not showing up, such as fetching content and parsing HTML links.
+# This will only inherit and return an HTML content from the .content_type operator tag.
+async def fetch_html(session, url):
+    async with session.get(url) as response:
+        if response.ok and response.content_type == 'text/html':
+            return await response.text()
+
+# TODO: We'll now implement an extracted links from the HTML document and skip the inline JavaScript with the use of href() attribute, which will incorporate a relative path with the current global machine URL.
