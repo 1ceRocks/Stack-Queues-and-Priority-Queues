@@ -9,10 +9,12 @@
 # Layout for the web crawler.
 
 # The asyncio module provides tons of asynchronous counterparts to queues from the threading module that would be useful for coroutine functions on a single thread.
-import aiohttp, argparse, asyncio
+# These modules are supplemented with later commits to satisfy data type algorithms that would otherwise be impossible to implement in the future.
+import aiohttp, argparse, asyncio, sys
 from collections import Counter
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
+from typing import NamedTuple
 
 # * Defines a counter on the visited links on the HTML hyperlinks being parsed. It also passes the coroutine execution to asyncio.run() for it to have a default event loop session. The coroutine then would pass back and display the list of links sorted by the number of visits in descending order.
 async def main(args):
@@ -53,4 +55,5 @@ def parse_links(url, html):
         if not href.startswith("javascript:"):
             yield urljoin(url, href)
 
-# TODO: 
+# TODO: Assigning a new data type manifesting a job that will work in the queue, and an A.I (Artificial Intelligence) asynchronous worker for performing the job.
+
