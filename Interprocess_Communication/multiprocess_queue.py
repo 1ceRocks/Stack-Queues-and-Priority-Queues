@@ -14,7 +14,7 @@
 
 
 # * Importing the necessary module string for reversing an MD5 Hash on a Single Thread
-import time
+import time, multiprocessing
 from hashlib import md5
 from itertools import product
 from string import ascii_lowercase
@@ -69,14 +69,31 @@ class Combinations:
 
 # * Class in the MD5-reversing method and get rid of the "itertools.product" import declaration.
 # ! Unfortunately, using pure Python to do some computations and replacing a built-in function developed in C makes the code an order of magnitude slower:
-def reverse_md5(hash_value, alphabet=ascii_lowercase, max_length=6):
-    for length in range(1, max_length + 1):
-        for combination in Combinations(alphabet, length):
-            text_bytes = "".join(combination).encode("utf-8")
-            hashed = md5(text_bytes).hexdigest()
-            if hashed == hash_value:
-                return text_bytes.decode("utf-8")
+# Reverse md5() may now be deleted because it is no longer required because the method's body is very similar to it yet somewhat different.
+# def reverse_md5(hash_value, alphabet=ascii_lowercase, max_length=6):
+#     for length in range(1, max_length + 1):
+#         for combination in Combinations(alphabet, length):
+#             text_bytes = "".join(combination).encode("utf-8")
+#             hashed = md5(text_bytes).hexdigest()
+#             if hashed == hash_value:
+#                 return text_bytes.decode("utf-8")
 
-# ? You could improve a few things to gain a few of seconds. To avoid using the if statement or throwing an exception, you may implement. iter__() in your Combinations class, for instance. The length of the alphabet might alternatively be kept as an instance property. These improvements aren't crucial for the sake of the example, though.
 
-# TODO: The worker process, job data type, and two different queues will then be created so that the main process and its offspring may communicate with one another.
+# Each worker process will have a reference to both the output queue for the potential solution and the input queue with tasks to consume. Full-duplex communication, sometimes referred to as simultaneous two-way communication, is made possible by these references between the employees and the primary process. You extend the Process class, which has the well-known.run() function, exactly like a thread, to construct a worker process:
+
+# .__call__() is a special method that allows to call objects from our class from within a task. Because of this, when employees obtain certain responsibilities, they can refer to them as normal tasks.
+class Worker(multiprocessing.Process):
+    def __init__(self, queue_in, queue_out, hash_value):
+        super().__init__(daemon=True)
+        self.queue_in = queue_in
+        self.queue_out = queue_out
+        self.hash_value = hash_value
+
+    def run(self):
+        while True:
+            job = self.queue_in.get()
+            if plaintext := job(self.hash_value):
+                self.queue_out.put(plaintext)
+                break
+
+# TODO: Finally, before beginning our worker processes, build both queues and add jobs to the input queue:
