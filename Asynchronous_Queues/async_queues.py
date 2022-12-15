@@ -36,3 +36,5 @@ def display(links):
 # This counter is used internally by the asyncio module to track the number of concurrent requests that are queued to the same page. It also acts as the global workspace for running through parallel processes.
 if __name__ == "__main__":
     asyncio.run(main(parse_args()))
+
+# ! There are a few missing pieces on why the terminal output is not showing up, such as fetching content and parsing HTML links.
