@@ -12,7 +12,7 @@
 import aiohttp, argparse, asyncio
 from collections import Counter
 
-# Defines a counter on the visited links on the HTML hyperlinks being parsed. It also passes the coroutine execution to asyncio.run() for it to have a default event loop session.
+# Defines a counter on the visited links on the HTML hyperlinks being parsed. It also passes the coroutine execution to asyncio.run() for it to have a default event loop session. The coroutine then would pass back and display the list of links sorted by the number of visits in descending order.
 async def main(args):
     session = aiohttp.ClientSession()
     try:
