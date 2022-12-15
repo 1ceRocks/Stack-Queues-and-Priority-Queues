@@ -14,11 +14,14 @@
 
 
 # * Importing the necessary module string for reversing an MD5 Hash on a Single Thread
-import time, multiprocessing, argparse
+import argparse, multiprocessing, queue, time
 from hashlib import md5
 from itertools import product
 from string import ascii_lowercase
 from dataclasses import dataclass
+
+# * Killing a Worker With the Posion Pill
+POISON_PILL = None
 
 # * A function that attempts to reverse an MD5 hash value given as the first parameter is defined inside the reverse_md5() parametric function. The function by default only takes into account text made up of six lowercase ASCII characters. By supplying two more optional options, you may alter the alphabet and the maximum length of the text that can be guessed.
 def reverse_md5(hash_value, alphabet=ascii_lowercase, max_length=6):
@@ -29,7 +32,8 @@ def reverse_md5(hash_value, alphabet=ascii_lowercase, max_length=6):
             if hashed == hash_value:
                 return text_bytes.decode("utf-8")
 
-# * Using a Python timer to calculate the execution time of a sample MD5 hash value. Finding a combination that hashes to the given input can take a few seconds on an experienced desktop computer: 
+# * Using a Python timer to calculate the execution time of a sample MD5 hash value. Finding a combination that hashes to the given input can take a few seconds on an experienced desktop computer:
+#  
 # This will comment line 34-41New code block will be laid out.
 # def main():
 #     t1 = time.perf_counter()
@@ -40,7 +44,51 @@ def reverse_md5(hash_value, alphabet=ascii_lowercase, max_length=6):
 # if __name__ == "__main__":
 #     main()
 
+# * At this stage, your employees interact with the main process in a two-way manner via the input and output queues. However, because the main process terminates without waiting for its daemon offspring to complete performing their duties, the application quits abruptly immediately after beginning.
 
+# ? Appended and Modified some code from the original code above that was written before.
+def main(args):
+    t1 = time.perf_counter()
+
+    queue_in = multiprocessing.Queue()
+    queue_out = multiprocessing.Queue()
+
+    workers = [
+        Worker(queue_in, queue_out, args.hash_value)
+        for _ in range(args.num_workers)
+    ]
+
+    for worker in workers:
+        worker.start()
+
+    for text_length in range(1, args.max_length + 1):
+        combinations = Combinations(ascii_lowercase, text_length)
+        for indices in chunk_indices(len(combinations), len(workers)):
+            queue_in.put(Job(combinations, *indices))
+
+    while any(worker.is_alive() for worker in workers):
+        try:
+            solution = queue_out.get(timeout=0.1)
+            if solution:
+                t2 = time.perf_counter()
+                print(f"{solution} (found in {t2 - t1:.1f}s)")
+                break
+        except queue.Empty:
+            pass
+    else:
+        print("Unable to find a solution")
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("hash_value")
+    parser.add_argument("-m", "--max-length", type=int, default=6)
+    parser.add_argument(
+        "-w",
+        "--num-workers",
+        type=int,
+        default=multiprocessing.cpu_count(),
+    )
+    return parser.parse_args()
 
 # * It produces tuples that may easily be used as input for the built-in range() method since they contain the start index of the current chunk and its last index raised by one.
 def chunk_indices(length, num_chunks):
@@ -96,6 +144,10 @@ class Worker(multiprocessing.Process):
     def run(self):
         while True:
             job = self.queue_in.get()
+            # ? Each of our worker processes would have a separate instance of that object with its own unique identity if you utilized a custom object() instance declared as a global variable. When a sentinel object is enqueued by one worker, it will be deserialized into a whole new instance with a distinct identity from its global variable in another worker. As a result, you couldn't tell if there was a deadly pill in the line.
+            if job is POISON_PILL:
+                self.queue_in.put(POISON_PILL)
+                break
             if plaintext := job(self.hash_value):
                 self.queue_out.put(plaintext)
                 break
@@ -114,4 +166,5 @@ class Job:
             if hashed == hash_value:
                 return text_bytes.decode("utf-8")
 
-# TODO: Finally, before beginning our worker processes, build both queues and add jobs to the input queue:
+if __name__ == "__main__":
+    main(parse_args())
