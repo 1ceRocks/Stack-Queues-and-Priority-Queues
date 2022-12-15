@@ -16,6 +16,11 @@ from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from typing import NamedTuple
 
+# * Unpacking its individual resources on the await queue.get() method inside the def worker() function after dequeueing the component. The variable depth value when not specified, always defaults to one.
+class Job(NamedTuple):
+    url: str
+    depth: int = 1
+
 # * Defines a counter on the visited links on the HTML hyperlinks being parsed. It also passes the coroutine execution to asyncio.run() for it to have a default event loop session. The coroutine then would pass back and display the list of links sorted by the number of visits in descending order.
 async def main(args):
     session = aiohttp.ClientSession()
@@ -24,6 +29,25 @@ async def main(args):
         display(links)
     finally:
         await session.close()
+
+# * A depth parameter specified the number of links to be displayed. The artificial programmed worker also depends on this depth to stop crawling recursively. The worker reads and supplements the value of hits associated with URL visits; additionally, when it doesn't exceed its maximum allowed depth on the depth of URL, the worker iterates over its links and fetch the HTML content that the URL points.
+async def worker(worker_id, session, queue, links, max_depth):
+    print(f"[{worker_id} starting]", file=sys.stderr)
+    while True:
+        url, depth = await queue.get()
+        links[url] += 1
+        # ? to avoid an unusual error when the worker is already running with the current job depth in the queue acting as producer and consumer, the try... finally handles to avoid a deadlock. This would be crucial as to when the worker doesn't have any programmed exceptions, a possibility would occur that stops accepting new jobs. 
+        try:
+            if depth <= max_depth:
+                print(f"[{worker_id} {depth=} {url=}]", file=sys.stderr)
+                # ? the assignment operator ":=" (pseudocode language) lets an HTTP response await, check if the content was returned, and assign its result on the html variable as a single expression.
+                if html := await fetch_html(session, url):
+                    for link_url in parse_links(url, html):
+                        await queue.put(Job(link_url, depth + 1))
+        except aiohttp.ClientError:
+            print(f"[{worker_id} failed at {url=}]", file=sys.stderr)
+        finally:
+            queue.task_done()
 
 # * The 2 define block codes [parse_args() and display(links)]Coroutine receives few command-line interface and returns them with parsed arguments.
 def parse_args():
@@ -55,5 +79,4 @@ def parse_links(url, html):
         if not href.startswith("javascript:"):
             yield urljoin(url, href)
 
-# TODO: Assigning a new data type manifesting a job that will work in the queue, and an A.I (Artificial Intelligence) asynchronous worker for performing the job.
-
+# TODO: Create an instance of the asynchronous queue and pass it to the artificial programmed workers.
