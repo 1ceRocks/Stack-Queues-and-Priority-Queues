@@ -27,7 +27,7 @@ queues 0.6.3 = pip install queues <br />
 **Python Queues Folder** <br />
 N/A
 
-**Using Queues in Practice Folder** <br />
+**Road Map of the United Kingdom Folder** <br />
 pygraphviz 1.9 = C compiler toolchain (Full tutorial: https://pygraphviz.github.io/documentation/stable/install.html) <br />
 networkx 2.8.4 = pip install networkx <br />
 
