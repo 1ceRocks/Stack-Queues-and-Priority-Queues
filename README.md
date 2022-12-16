@@ -15,13 +15,17 @@ aiohttp 3.8.1 = pip install aiohttp <br />
 beautifulsoup4 4.11.1 = pip install beautifulsoup4 <br />
 collections 0.1.6 = pip install collection <br />
 
-**Distributed Message Queues** <br />
+**Distributed_Message_Queues Folder** <br />
 kafka-python3 3.0.0 = pip install kafka-python3 <br />
 pika 1.2.1 = pip install pika <br />
 redis 4.3.3 = pip install redis <br />
 
-**Python Queues Folder** <br />
+**Interprocess_Communication Folder** <br />
+argparse 1.4.1 = pip install argparse <br />
 queues 0.6.3 = pip install queues <br />
+
+**Python Queues Folder** <br />
+N/A
 
 **Using Queues in Practice Folder** <br />
 pygraphviz 1.9 = C compiler toolchain (Full tutorial: https://pygraphviz.github.io/documentation/stable/install.html) <br />
