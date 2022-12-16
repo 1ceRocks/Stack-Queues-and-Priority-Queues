@@ -3,4 +3,11 @@
 # * Importing redis module to access memory key-value data cache between a traditional SQL database and a server.
 import redis
 
-# TODO: A subscriber receives messages as Python dictionaries with some information, allowing us to determine how to handle them. The identical message will be delivered to every active subscriber on a channel if there are several of them. Messages, on the other hand, are not persistent by default.
+# A subscriber now receives messages as Python dictionaries with few information, allowing them to determine how to handle it. The identical message will now be delivered to every active subscriber on a channel if there are several entities. Messages, on the other hand, are not persistent by default.
+with redis.Redis() as client:
+    pubsub = client.pubsub()
+    pubsub.subscribe("chatroom")
+    for message in pubsub.listen():
+        if message["type"] == "message":
+            body = message["data"].decode("utf-8")
+            print(f"Got message: {body}")
