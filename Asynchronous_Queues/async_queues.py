@@ -85,6 +85,20 @@ async def worker(worker_id, session, queue, links, max_depth):
         finally:
             queue.task_done()
 
+# * This will only inherit and return an HTML content from the .content_type operator tag.
+async def fetch_html(session, url):
+    async with session.get(url) as response:
+        if response.ok and response.content_type == 'text/html':
+            return await response.text()
+
+# * Inline JavaScript that joins a relative path with the current global machine URL.
+def parse_links(url, html):
+    soup = BeautifulSoup(html, features="html.parser")
+    for anchor in soup.select("a[href]"):
+        href = anchor.get("href").lower()
+        if not href.startswith("javascript:"):
+            yield urljoin(url, href)
+
 # * The 2 define block codes [parse_args() and display(links)]Coroutine receives few command-line interface and returns them with parsed arguments.
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -100,19 +114,3 @@ def display(links):
 # * This counter is used internally by the asyncio module to track the number of concurrent requests that are queued to the same page. It also acts as the global workspace for running through parallel processes.
 if __name__ == "__main__":
     asyncio.run(main(parse_args()))
-
-# * This will only inherit and return an HTML content from the .content_type operator tag.
-async def fetch_html(session, url):
-    async with session.get(url) as response:
-        if response.ok and response.content_type == 'text/html':
-            return await response.text()
-
-# * Inline JavaScript that joins a relative path with the current global machine URL.
-def parse_links(url, html):
-    soup = BeautifulSoup(html, features="html.parser")
-    for anchor in soup.select("a[href]"):
-        href = anchor.get("href").lower()
-        if not href.startswith("javascript:"):
-            yield urljoin(url, href)
-
-            # Stack-Queues-and-Priority-Queues/Asynchronous_Queues/async_queues.py
