@@ -6,4 +6,16 @@
 # * The Pika library is a Python wrapper for the popular RabbitMQ message broker.
 import pika
 
-# TODO: We need to implement a connection using default parameters that assume that RabbitMQ is available on our local machine. After that, we will create a new channel, which is a lightweight abstraction on top of a TCP connection. We can now have a multiple independent messaging for separate transmission channels. Before we enter our loop, we need to make sure that a queue named "mailbox" exists in the broker. Otherwise, we will use a try except handle error. At last, we keep publishing messages from the user input.
+# * Using the default settings, we establish a connection while assuming that RabbitMQ is already active on our local workstation. Then, a new channel is created, which is a simple abstraction over a TCP connection. Multiple independent channels are possible for various communications. We make sure that there is a mailbox queue in the broker before starting the loop. Finally, we published user messages that have been viewed.
+QUEUE_NAME = "mailbox"
+
+with pika.BlockingConnection() as connection:
+    channel = connection.channel()
+    channel.queue_declare(queue=QUEUE_NAME)
+    while True:
+        message = input("Message: ")
+        channel.basic_publish(
+            exchange="",
+            routing_key=QUEUE_NAME,
+            body=message.encode("utf-8")
+        )
