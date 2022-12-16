@@ -31,7 +31,7 @@ N/A
 pygraphviz 1.9 = C compiler toolchain (Full tutorial: https://pygraphviz.github.io/documentation/stable/install.html) <br />
 networkx 2.8.4 = pip install networkx <br />
 
-**Thread Safe Queues** <br />
+**Thread_Safe_Queues Folder** <br />
 pydot 1.4.2 = pip install pydot <br />
 rich 12.4.4 = pip install rich <br />
 
